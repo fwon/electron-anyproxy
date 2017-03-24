@@ -1,5 +1,5 @@
 # electron-anyproxy
-📢  A client for Anyproxy. Base on Electron and Vue. 
+📢  A client for [Anyproxy](https://github.com/alibaba/anyproxy/tree/4.x). Base on Electron and Vue. 
 
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png)
 
@@ -17,7 +17,6 @@ npm install
 npm run start
 ```
 ## 打包软件
-未优化
-
+待完成
 ## LISCENCE
 MIT
