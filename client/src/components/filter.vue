@@ -1,0 +1,46 @@
+<template>
+    <div id="filter">
+        <label>Filter：</label>
+        <el-input
+            v-model="filterPattern"
+            placeholder="请输入内容"
+            icon="circle-close"
+            :on-icon-click="clearFilterContent">
+        </el-input>
+    </div>
+</template>
+<script>
+import _ from 'lodash'
+import * as types from '../store/mutation-types'
+
+export default {
+  data() {
+    return {
+      filterPattern: ''
+    }
+  },
+  watch: {
+    //watch 不能使用箭头函数 https://cn.vuejs.org/v2/api/#watch
+    filterPattern: function() {
+        this.changeFilterRecorder();
+    }
+  },
+  methods: {
+      changeFilterRecorder: _.debounce(function() {
+          this.$store.commit(types.CHANGE_RECORDER_FILTER, this.filterPattern);
+      }, 100),
+      clearFilterContent(ev) {
+          this.filterPattern = '';
+          this.$store.commit(types.CLEAR_RECORDER_FILTER);
+      }
+  }
+}
+</script>
+<style scoped>
+#filter {
+    display:inline-block;
+}
+.el-input {
+    width: 200px;
+}
+</style>
