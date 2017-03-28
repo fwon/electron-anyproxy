@@ -16,7 +16,7 @@ function createWindow() {
     mainWindow.loadURL(`file://${__dirname}/client/index.html`);
     // mainWindow.loadURL('http://localhost:4000');
 
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => {
         mainWindow = null;

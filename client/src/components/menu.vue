@@ -203,9 +203,7 @@ export default {
         restartProxy() {
             const self = this;
             this.$remoteApi.stopProxy().then((res) => {
-                setTimeout(() => {
-                    self.startProxy();
-                }, 1000);
+                self.startProxy();
             });
         },
         clearRecorder() {
