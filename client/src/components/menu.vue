@@ -36,7 +36,7 @@
                     <el-popover
                     ref="setting"
                     placement="bottom"
-                    width="160"
+                    width="230"
                     v-model="visibleSetting">
                         <el-form ref="form" :model="setting" label-width="80px">
                             <el-form-item label="端口">
@@ -47,6 +47,18 @@
                             </el-form-item>
                             <el-form-item label="https">
                                 <el-switch on-text="" off-text="" v-model="setting.forceProxyHttps"></el-switch>
+                            </el-form-item>
+                            <el-form-item label="限速(kb/s)">
+                                <el-select
+                                    v-model="setting.throttle"
+                                    allow-create
+                                    placeholder="No throttling">
+                                    <el-option
+                                        v-for="item in throttleOptions"
+                                        :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                             <el-form-item class="menu-setting__btn">
                                 <el-button @click="visibleSetting = false">保存</el-button>
@@ -90,8 +102,44 @@ export default {
             setting: {
                 port: '8001',
                 forceProxyHttps: true,
-                global: false
-            }
+                global: false,
+                throttle: null
+            },
+            throttleOptions: [
+                {
+                    label: 'GPRS(50kb/s)',
+                    value: 50
+                },
+                {
+                    label: 'Regular 2G(250kb/s)',
+                    value: 250
+                },
+                {
+                    label: 'Good 2G(450kb/s)',
+                    value: 450
+                },
+                {
+                    label: 'Regular 3G(750kb/s)',
+                    value: 750
+                },
+                {
+                    label: 'Good 3G(1.5Mb/s)',
+                    value: 1536
+                },
+                {
+                    label: 'Regular 4G(4Mb/s)',
+                    value: 4096
+                },
+                {
+                    label: 'DSL(2Mb/s)',
+                    value: 2048
+                },
+                {
+                    label: 'WiFi(30Mb/s)',
+                    value: 30720
+                },
+            ]
+
         }
     },
     mounted() {
@@ -155,11 +203,14 @@ export default {
         restartProxy() {
             const self = this;
             this.$remoteApi.stopProxy().then((res) => {
-                self.startProxy();
+                setTimeout(() => {
+                    self.startProxy();
+                }, 1000);
             });
         },
         clearRecorder() {
             this.$store.commit(types.CLEAR_RECORDER);
+            // this.$remoteApi.clearRecorder();
         },
         setRule() {
             this.$store.commit(types.TOGGLE_RULE_PANEL);
