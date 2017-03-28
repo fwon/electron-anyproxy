@@ -1,5 +1,5 @@
 # electron-anyproxy
-📢  A client for [Anyproxy](https://github.com/alibaba/anyproxy/tree/4.x). Base on Electron and Vue. 
+📢  A Proxy client, base on Anyproxy. Building with Electron and Vue. 
 
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png)
 
