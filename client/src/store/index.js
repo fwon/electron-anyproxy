@@ -17,7 +17,7 @@ export default new Vuex.Store({
         proxy_ip: '',
         proxy_port: '',
         proxy_rules: [], //代理配置规则
-        toggle_rule_panel: true,
+        toggle_rule_panel: false,
         current_rule: {} //当前运用规则
     },
     mutations: {

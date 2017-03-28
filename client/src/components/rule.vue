@@ -1,5 +1,6 @@
 <template>
-    <div id="rules_panel" :class="{hidden: displayStatus}">
+    <transition name="slide-fade">
+    <div id="rules_panel" v-if="displayStatus">
         <el-row :gutter="20">
             <el-col :span="10">
                 <div class="rules-editor bg-extra-light-gray" >
@@ -84,6 +85,7 @@
             </el-col>
         </el-row>
     </div>
+    </transition>
 </template>
 <script>
 import * as types from '../store/mutation-types';
@@ -251,7 +253,7 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scope>
 #rules_panel {
     position: absolute;
     top: 114px;
@@ -261,17 +263,15 @@ export default {
     padding: 20px;
     background: #fff;
     box-sizing: border-box;
-    -webkit-transition: transform .5s cubic-bezier(1, -0.26, 0.62, 1.35);
     .CodeMirror {
         min-height: 375px;
         font-size: 12px;
     }
 
 }
-#rules_panel.hidden {
-    -webkit-transform: translate(-100%, 0);
-}
 .rules-editor {
+    height: 550px;
+    overflow:hidden;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -296,7 +296,8 @@ export default {
 }
 
 .rules-list {
-    height: 494px;
+    height: 550px;
+    overflow: hidden;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -317,5 +318,4 @@ export default {
         }
     }
 }
-
 </style>

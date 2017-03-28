@@ -9,13 +9,14 @@ function createWindow() {
         width: 1200,
         height: 780,
         icon: __dirname + '/icon.jpg',
-        titleBarStyle: 'hidden-inset', // 该选项隐藏默认title
+        // titleBarStyle: 'hidden-inset',
         backgroundColor: '#fff'
     });
 
-    mainWindow.loadURL(`file://${__dirname}/client/index.html`);
+    // mainWindow.loadURL(`file://${__dirname}/client/index.html`);
+    mainWindow.loadURL('http://localhost:4000');
 
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => {
         mainWindow = null;

@@ -7,7 +7,7 @@
             stripe
             row-key="id"
             :height="650"
-            @current-change="handleCurrentChange"
+            @row-click="handleCurrentChange"
             :row-class-name="tableRowClassName"
             style="width: 100%;font-size:12px;">
             <el-table-column
@@ -45,18 +45,21 @@
             label="Start">
             </el-table-column>
         </el-table>
-        <el-tabs v-model="activeName" @tab-click="handleClick" v-if="detailPanelStatus">
-            <el-tab-pane label="Headers" name="headers"></el-tab-pane>
-            <el-tab-pane label="Preview" name="preview"></el-tab-pane>
-            <el-tab-pane label="Response" name="response"></el-tab-pane>
-            <el-tab-pane label="Cookies" name="cookies"></el-tab-pane>
-            <network-detail 
-                :detail-content="detailContent" 
-                :headers="currentRow" 
-                :panel-type="activeName">
-            </network-detail>
-        </el-tabs>
-        <i id="close_panel" class="el-icon-close" v-if="detailPanelStatus" @click="detailPanelStatus = false"></i>
+        <transition name="slide-fade">
+            <el-tabs v-model="activeName" @tab-click="handleClick" v-if="detailPanelStatus">
+                <el-tab-pane label="Headers" name="headers"></el-tab-pane>
+                <el-tab-pane label="Preview" name="preview"></el-tab-pane>
+                <el-tab-pane label="Response" name="response"></el-tab-pane>
+                <el-tab-pane label="Cookies" name="cookies"></el-tab-pane>
+                <network-detail 
+                    :detail-content="detailContent" 
+                    :headers="currentRow" 
+                    :panel-type="activeName">
+                </network-detail>
+                <i id="close_panel" class="el-icon-close" @click="detailPanelStatus = false"></i>
+                
+            </el-tabs>
+        </transition>
     </div>
 </template>
 <script>
@@ -97,13 +100,16 @@ export default {
             return '';
         },
         handleCurrentChange(val) {
-            console.log(val);
             let self = this;
-            this.currentRow = val;
-            this.detailPanelStatus = true;
-            this.$remoteApi.fetchBody(val.id).then((data) => {
-                self.detailContent = data;
-            });
+            if (this.currentRow === val) {
+                this.detailPanelStatus = !this.detailPanelStatus;
+            } else {
+                this.detailPanelStatus = true;
+                this.currentRow = val;
+                this.$remoteApi.fetchBody(val.id).then((data) => {
+                    self.detailContent = data;
+                });
+            }
         },
         dateFormatter(row, column) {
             return moment(row.start).format('hh:mm:ss');
@@ -114,35 +120,43 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scope>
 #network_list {
     position: relative;
     -webkit-user-select: text;
     .el-table td {
         height: 30px;
     }
-    .el-table .gray-row {
-        color: #999;
-    }
-    .el-table tr.current-row {
-        background-color: #58B7FF;
-    }
-    .el-table .success-row td:nth-child(3) {
-        color: #13CE66;
-    }
-    .el-table .error-row {
-        color: #FF4949;
-    }
-    .el-table .odd-row {
-        background: #FAFAFA;
-    }
-    .el-tabs {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: #fff;
-        width: 50%;
-        box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
+    
+}
+.el-table .gray-row {
+    color: #999;
+}
+.el-table tr.current-row>td {
+    background-color: #58B7FF;
+}
+.el-table .success-row td:nth-child(3) {
+    color: #13CE66;
+}
+.el-table .error-row {
+    color: #FF4949;
+}
+.el-table .odd-row {
+    background: #FAFAFA;
+}
+.el-tabs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(0,0,0);
+    background-color: #fff;
+    width: 50%;
+    box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
+}
+.el-icon-close {
+    transition: transform .2s ease-in;
+    &:hover {
+        transform: rotate(180deg);
     }
 }
 
@@ -158,9 +172,22 @@ export default {
 .nt-record-list .cell {
     white-space: nowrap;
 }
+
 #close_panel {
     position:absolute;
     right:10px;
-    top:12px;
+    top:0px;
 }
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  transform: translate3d(200px,0,0);
+  opacity: 0;
+}
+
 </style>
