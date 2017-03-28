@@ -21,6 +21,6 @@ npm install
 npm run start
 ```
 ## 打包软件
-待完成
+目前生成软件包比较大，待优化
 ## LISCENCE
 MIT
