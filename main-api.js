@@ -140,6 +140,10 @@ module.exports = {
             })
         });
     },
+    clearRecorder() {
+        // global.recorder && global.recorder.clear();
+        //there is bug in anyproxy clear
+    },
     offUpdate() {
         // global.recorder.off('update');
     },
