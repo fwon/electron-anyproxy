@@ -153,20 +153,18 @@ module.exports = {
      * 证书相关接口
      */
     generateRootCA(successCb, errorCb) {
-        console.log('a')
+        const isWin = /^win/.test(process.platform);
         if (!certMgr.ifRootCAFileExists()) {
-            console.log('b')
             certMgr.generateRootCA((error, keyPath) => {
                 if (!error) {
                     const certDir = path.dirname(keyPath);
                     console.log('The cert is generated at ', certDir);
-                    const isWin = /^win/.test(process.platform);
                     if (isWin) {
                         exec('start .', {cwd: certDir});
                     } else {
                         exec('open .', {cwd: certDir});
                     }
-                    successCb && successCb('证书下载成功，请双击安装');
+                    successCb && successCb('证书下载成功，请双击证书安装');
                 } else {
                     errorCb && errorCb('证书下载错误');
                     console.error('error when generating rootCA', error);
@@ -175,6 +173,13 @@ module.exports = {
         } else {
             console.log('c');
             successCb && successCb('证书已存在');
+            const rootPath = util.getAnyProxyPath('certificates');
+            if (!rootPath) return;
+            if (isWin) {
+                exec('start .', {cwd: rootPath});
+            } else {
+                exec('open .', {cwd: rootPath});
+            }
         }
     },
     /**
