@@ -1,7 +1,10 @@
 # electron-anyproxy
+
+![Electron-anyproxy](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png)
+
 📢  A Proxy client, base on Anyproxy. Building with Electron and Vue. 
 
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png)
+[![Build Status](https://travis-ci.org/fwon/electron-anyproxy.svg?branch=master)](https://travis-ci.org/fwon/electron-anyproxy)
 
 ## 功能
 1. 网络抓包：提供类似Chrome的预览功能，支持http/https。
