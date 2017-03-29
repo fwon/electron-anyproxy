@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package": "electron-packager . anyproxy --platform=win32,darwin --arch=all --version=0.33.7 --out=dist/ --overwrite --ignore=node_modules/electron-* --ignore=node_modules/.bin --ignore=.git --ignore=dist --prune",
-    "build": "ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ npm run package"
+    "pack": "electron-packager . Anyproxy --out=pack --overwrite --ignore=client/node_modules --icon=icon.icns"
   },
   "repository": {
     "type": "git",
@@ -44,10 +43,10 @@
     "npm": "^2.7.0",
     "pug": "^2.0.0-beta6",
     "qrcode-npm": "0.0.3",
-    "ws": "^1.1.0",
-    "electron": "^1.6.2"
+    "ws": "^1.1.0"
   },
   "devDependencies": {
-    "devtron": "^1.4.0"
+    "devtron": "^1.4.0",
+    "electron": "^1.6.2"    
   }
 }
