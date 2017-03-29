@@ -17,12 +17,12 @@
 
 
 ## 本地运行
-```
+```javascript
 npm install //or yarn
 npm run start
 ```
 ## 打包软件
-```
+```javascript
 npm install //or yarn, 若已安装则无需次命令
 npm run pack
 ```
