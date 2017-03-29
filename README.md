@@ -1,4 +1,3 @@
-![Electron-anyproxy](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png)
 <p align="center"><img src="https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png"></p>
 
 📢  A Proxy client, base on Anyproxy. Building with Electron and Vue. 
