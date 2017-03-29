@@ -1,3 +1,7 @@
 node_modules
 client/node_modules
 .vscode
+pack
+rule_custom
+rules.json
+npm-debug.log
