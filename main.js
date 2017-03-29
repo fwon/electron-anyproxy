@@ -8,14 +8,14 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 780,
-        icon: __dirname + '/icon.jpg',
+        icon: __dirname + '/icon.png',
         titleBarStyle: 'hidden-inset',
         backgroundColor: '#fff'
     });
 
     mainWindow.loadURL(`file://${__dirname}/client/index.html`);
-    // mainWindow.loadURL('http://localhost:4000');
 
+    // mainWindow.loadURL('http://localhost:4000');
     // mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => {
