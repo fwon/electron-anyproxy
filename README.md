@@ -24,13 +24,13 @@
 ## 数据Mock
 
 ## 本地运行
-```
-npm install or yarn
+```javascript
+npm install //or yarn
 npm run start
 ```
 ## 打包软件
-```
-npm install or yarn//第一次运行
+```javascript
+npm install //or yarn, 若已安装则无需次命令
 npm run pack
 ```
 软件将会打包到`pack`目录下，双击运行
