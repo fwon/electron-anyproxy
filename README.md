@@ -12,9 +12,16 @@
 ## 网络抓取
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-1.png)
 
-## 规则设置
+## 规则配置
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-2.png)
 
+## 自定义规则
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-3.png)
+
+## 网络模拟
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-4.png)
+
+## 数据Mock
 
 ## 本地运行
 ```

@@ -1,5 +1,6 @@
 <template>
-    <div id="network_list">
+    <div id="network">
+        <proxy-menu></proxy-menu>
         <el-table
             class="nt-record-list"
             :data="tableData"
@@ -46,25 +47,27 @@
             </el-table-column>
         </el-table>
         <transition name="slide-fade">
-            <el-tabs v-model="activeName" @tab-click="handleClick" v-if="detailPanelStatus">
-                <el-tab-pane label="Headers" name="headers"></el-tab-pane>
-                <el-tab-pane label="Preview" name="preview"></el-tab-pane>
-                <el-tab-pane label="Response" name="response"></el-tab-pane>
-                <el-tab-pane label="Cookies" name="cookies"></el-tab-pane>
-                <network-detail 
-                    :detail-content="detailContent" 
-                    :headers="currentRow" 
-                    :panel-type="activeName">
-                </network-detail>
+            <div id="network_pannel" v-if="detailPanelStatus">
+                <el-tabs v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="Headers" name="headers"></el-tab-pane>
+                    <el-tab-pane label="Preview" name="preview"></el-tab-pane>
+                    <el-tab-pane label="Response" name="response"></el-tab-pane>
+                    <el-tab-pane label="Cookies" name="cookies"></el-tab-pane>
+                    <network-detail 
+                        :detail-content="detailContent" 
+                        :headers="currentRow" 
+                        :panel-type="activeName">
+                    </network-detail>
+                </el-tabs>
                 <i id="close_panel" class="el-icon-close" @click="detailPanelStatus = false"></i>
-                
-            </el-tabs>
+            </div>
         </transition>
     </div>
 </template>
 <script>
 import moment from 'moment';
 import {mapState} from 'vuex';
+import proxyMenu from './menu.vue'
 import networkDetail from './network-detail.vue';
 import * as types from '../store/mutation-types';
 
@@ -80,7 +83,8 @@ export default {
         }
     },
     components: {
-        networkDetail
+        networkDetail,
+        proxyMenu
     },
     computed: {
         tableData() {
@@ -121,13 +125,26 @@ export default {
 }
 </script>
 <style lang="less" scope>
-#network_list {
-    position: relative;
+#network {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    -webkit-box-orient: vertical;
+    padding: 20px 30px;
     -webkit-user-select: text;
+    box-sizing: border-box;
     .el-table td {
         height: 30px;
     }
-    
+}
+#network_pannel {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #fff;
+    width: 50%;
+    height:100%;
+    box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
+    z-index: 999;
 }
 .el-table .gray-row {
     color: #999;
@@ -143,15 +160,6 @@ export default {
 }
 .el-table .odd-row {
     background: #FAFAFA;
-}
-.el-tabs {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate3d(0,0,0);
-    background-color: #fff;
-    width: 50%;
-    box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
 }
 .el-icon-close {
     transition: transform .2s ease-in;
@@ -175,8 +183,8 @@ export default {
 
 #close_panel {
     position:absolute;
-    right:10px;
-    top:0px;
+    right:12px;
+    top:12px;
 }
 
 .slide-fade-enter-active {

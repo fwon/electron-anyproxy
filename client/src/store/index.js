@@ -17,7 +17,6 @@ export default new Vuex.Store({
         proxy_ip: '',
         proxy_port: '',
         proxy_rules: [], //代理配置规则
-        toggle_rule_panel: false,
         current_rule: {} //当前运用规则
     },
     mutations: {
@@ -66,9 +65,6 @@ export default new Vuex.Store({
             state.proxy_rules = state.proxy_rules.filter((item) => {
                 return item.id !== id;
             });
-        },
-        [types.TOGGLE_RULE_PANEL] (state) {
-            state.toggle_rule_panel = !state.toggle_rule_panel;
         },
         [types.TOGGLE_CURRENT_RULE] (state, rule) {
             state.current_rule = rule;

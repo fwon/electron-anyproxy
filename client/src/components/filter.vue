@@ -1,9 +1,8 @@
 <template>
     <div id="filter">
-        <label>Filter：</label>
         <el-input
             v-model="filterPattern"
-            placeholder="请输入内容"
+            placeholder="查找请求"
             icon="circle-close"
             :on-icon-click="clearFilterContent">
         </el-input>

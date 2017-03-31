@@ -1,91 +1,76 @@
 <template>
-    <transition name="slide-fade">
-    <div id="rules_panel" v-if="displayStatus">
-        <el-row :gutter="20">
-            <el-col :span="10">
-                <div class="rules-editor bg-extra-light-gray" >
-                    <div class="rules-editor__sample">
-                        <span>规则样例</span>
-                        <el-select v-model="ruleName" placeholder="请选择" @change="ruleSelectChange">
-                            <el-option
-                            v-for="item in ruleOptions"
-                            :label="item.label"
-                            :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </div>
-                    <div class="rules-editor__name">
-                        <span>名称(自定义)</span>
-                        <el-input type="input" v-model="ruleKey.name"></el-input>
-                    </div>
-                    <div class="rules-editor__cont">
-                        <p>规则内容</p>
-                        <codemirror v-model="ruleValue" :options="editorOption"></codemirror>
-                    </div>
+    <div id="rules_panel">
+        <el-dialog title="规则编辑" v-model="eidtRuleStatus">
+            <div class="rules-editor">
+                <div class="rules-editor__sample">
+                    <span>规则样例</span>
+                    <el-select v-model="ruleName" placeholder="请选择" @change="ruleSelectChange">
+                        <el-option
+                        v-for="item in ruleOptions"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
-            </el-col>
-            <el-col :span="2">
-                <div class="rules-addbtn" @click="addRule">
-                    <el-button type="success" icon="d-arrow-right"></el-button>
+                <div class="rules-editor__name">
+                    <span>名称(自定义)</span>
+                    <el-input type="input" v-model="ruleKey.name"></el-input>
                 </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="rules-list bg-extra-light-gray">
-                    <el-table
-                        :data="rulesData"
-                        border
-                        :row-class-name="tableRowClassName"
-                        style="width: 100%">
-                        <el-table-column
-                        type="index"
-                        label="#"
-                        width="40">
-                        <template scope="scope">
-                            <i class="el-icon-check"></i>
-                        </template>
-                        </el-table-column>
-                        <el-table-column
-                        prop="name"
-                        label="规则"
-                        width="220">
-                        </el-table-column>index
-                        <el-table-column label="操作">
-                        <template scope="scope">
-                            <el-button
-                            size="small"
-                            @click="handleEdit(scope.$index, scope.row)"
-                            v-if="currentEditIndex === scope.$index">
-                            取消</el-button>
-                            <el-button
-                            size="small"
-                            @click="handleEdit(scope.$index, scope.row)"
-                            v-else>
-                            编辑</el-button>
-                            <el-button
-                            size="small"
-                            type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">
-                            删除</el-button>
-                            <el-button
-                            size="small"
-                            type="warning"
-                            @click="handleCurrentChange(scope.$index, scope.row)"
-                            v-if="currentSelectIndex === scope.$index">
-                            取消</el-button>
-                            <el-button
-                            size="small"
-                            type="success"
-                            @click="handleCurrentChange(scope.$index, scope.row)"
-                            v-else>
-                            应用</el-button>
-                        </template>
-                        </el-table-column>
-                    </el-table>
+                <div class="rules-editor__cont">
+                    <p>规则内容</p>
+                    <codemirror v-model="ruleValue" :options="editorOption"></codemirror>
                 </div>
-            </el-col>
-        </el-row>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelRule">取 消</el-button>
+                <el-button type="primary"  @click="saveRule">保 存</el-button>
+            </div>
+        </el-dialog>
+        <div class="rules-list">
+            <el-button type="primary" :plain="true" icon="plus" @click="eidtRuleStatus = true">添加</el-button>
+            <el-table
+                :data="rulesData"
+                border
+                :row-class-name="tableRowClassName">
+                <el-table-column
+                type="index"
+                label="#">
+                <template scope="scope">
+                    <i class="el-icon-check"></i>
+                </template>
+                </el-table-column>
+                <el-table-column
+                prop="name"
+                label="规则">
+                </el-table-column>index
+                <el-table-column label="操作">
+                <template scope="scope">
+                    <el-button
+                    size="small"
+                    @click="handleEdit(scope.$index, scope.row)">
+                    编辑</el-button>
+                    <el-button
+                    size="small"
+                    type="danger"
+                    @click="handleDelete(scope.$index, scope.row)">
+                    删除</el-button>
+                    <el-button
+                    size="small"
+                    type="warning"
+                    @click="handleCurrentChange(scope.$index, scope.row)"
+                    v-if="currentSelectIndex === scope.$index">
+                    取消</el-button>
+                    <el-button
+                    size="small"
+                    type="success"
+                    @click="handleCurrentChange(scope.$index, scope.row)"
+                    v-else>
+                    应用</el-button>
+                </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
-    </transition>
 </template>
 <script>
 import * as types from '../store/mutation-types';
@@ -107,7 +92,7 @@ export default {
                 lineNumbers: true,
                 theme: 'monokai',
             },
-            currentEditIndex: null,
+            eidtRuleStatus: false,
             currentSelectIndex: null,
             ruleOptions: [{
                 value: 'modify_request_data',
@@ -140,8 +125,7 @@ export default {
         codemirror
     },
     computed: mapState({
-        rulesData: state => state.proxy_rules,
-        displayStatus: state => state.toggle_rule_panel
+        rulesData: state => state.proxy_rules
     }),
     mounted() {
         console.log('mouted')
@@ -176,7 +160,13 @@ export default {
                 })
             });
         },
-        addRule() {
+        cancelRule() {
+            this.eidtRuleStatus = false;
+            this.ruleKey = {id:'',name:''};
+            this.ruleValue = '';
+            // this.ruleName = '';
+        },
+        saveRule() {
             console.log('add')
             const self = this;
             let rule = {
@@ -195,33 +185,26 @@ export default {
                     index: idIndex,
                     rule: rule
                 });
-                this.currentEditIndex = null;
                 this.saveToFile(rule.id);
             } else {
                 if (nameIndex !== -1) {
                     this.$alert('规则名不能重复');
                     return;
                 } else {
-                    this.currentEditIndex = null;
                     this.$store.commit(types.STORE_PROXY_RULE, rule);
                     this.saveToFile(rule.id);
                 }
             }
+            this.eidtRuleStatus = false;
         },
         handleEdit(index, row) {
             console.log(row);
-            if (this.currentEditIndex === index) {
-                this.currentEditIndex = null;
-                this.ruleKey = {id:'',name:''};
-                this.ruleValue = '';
-            } else {
-                this.currentEditIndex = index;
-                this.ruleKey = Object.assign({}, row);
-                //从本地获取规则文件内容
-                this.$remoteApi.fetchCustomRule(row.id).then((data) => {
-                    this.ruleValue = data;
-                });
-            }
+            this.eidtRuleStatus = true;
+            this.ruleKey = Object.assign({}, row);
+            //从本地获取规则文件内容
+            this.$remoteApi.fetchCustomRule(row.id).then((data) => {
+                this.ruleValue = data;
+            });
         },
         handleDelete(index, row) {
             const id = row.id;
@@ -255,26 +238,23 @@ export default {
 </script>
 <style lang="less" scope>
 #rules_panel {
-    position: absolute;
-    top: 114px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    padding: 10px;
     background: #fff;
     box-sizing: border-box;
+    display: -webkit-box;
     .CodeMirror {
-        min-height: 375px;
-        font-size: 12px;
+        min-height: 320px;
+        font-size: 13px;
     }
-
 }
 .rules-editor {
-    height: 550px;
     overflow:hidden;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
+    -webkit-box-flex: 1;
 }
 .rules-editor__sample {
     margin-bottom: 20px;
@@ -289,14 +269,9 @@ export default {
 .el-textarea__inner {
     height: 165px;
 }
-.rules-addbtn {
-    margin-top: 240px;
-    text-align: center;
-    cursor: pointer;
-}
 
 .rules-list {
-    height: 550px;
+    width: 90%;
     overflow: hidden;
     padding: 20px;
     border-radius: 10px;
@@ -304,8 +279,7 @@ export default {
     
 }
 .rules-list .el-table {
-    height:100%;
-    overflow-y: scroll;
+    margin-top: 20px;
     .el-icon-check {
         color: #13CE66;
         margin-left: -7px;
@@ -317,5 +291,8 @@ export default {
             display: initial;
         }
     }
+}
+.el-button+.el-button {
+    margin-left: 0;
 }
 </style>

@@ -13,7 +13,6 @@ export const INIT_PROXY_RULE = 'INIT_PROXY_RULE';//从本地初始化规则
 export const STORE_PROXY_RULE = 'STORE_PROXY_RULE';//添加代理规则
 export const MODIFY_PROXY_RULE = 'MODIFY_PROXY_RULE';//添加代理规则
 export const DELETE_RULE = 'DELETE_RULE'//删除规则
-export const TOGGLE_RULE_PANEL = 'TOGGLE_RULE_PANEL'; //显示rule模板
 export const TOGGLE_CURRENT_RULE = 'TOGGLE_CURRENT_RULE'; //切换当前运用规则
 /**
  * Actions

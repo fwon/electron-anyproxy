@@ -1,90 +1,68 @@
 <template>
     <div id="menu">
-        <el-row :gutter="20">
-        <!--
-            <el-col :span="2">
-                <div class="grid-content bg-purple">
-                    <b>AnyProxy</b>
+        <div class="menu-left grid-content">
+            <el-tooltip class="item" effect="light" content="启动代理服务器" placement="bottom-end" v-if="!open">
+                <el-button type="success" icon="caret-right" @click="toggleProxy" v-if="!open"></el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="light" content="关闭代理服务器" placement="bottom-end" v-if="open">
+                <el-button type="danger" icon="close" @click="toggleProxy" v-if="open"></el-button>
+            </el-tooltip>                        
+            <el-tooltip class="item" effect="light" content="清除列表" placement="bottom-end">
+                <el-button type="warning" icon="delete" @click="clearRecorder"></el-button>
+            </el-tooltip>
+            <proxy-filter></proxy-filter>
+        </div>
+        <div class="menu-right grid-content">
+            <el-popover
+            ref="setting"
+            placement="bottom"
+            width="230"
+            v-model="visibleSetting">
+                <el-form ref="form" :model="setting" label-width="80px">
+                    <el-form-item label="端口">
+                        <el-input v-model="setting.port"></el-input>
+                    </el-form-item>
+                    <el-form-item label="全局代理">
+                        <el-switch on-text="" off-text="" v-model="setting.global"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="https">
+                        <el-switch on-text="" off-text="" v-model="setting.forceProxyHttps"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="限速(kb/s)">
+                        <el-select
+                            v-model="setting.throttle"
+                            allow-create
+                            placeholder="No throttling">
+                            <el-option
+                                v-for="item in throttleOptions"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item class="menu-setting__btn">
+                        <el-button @click="visibleSetting = false">保存</el-button>
+                        <el-button type="success" @click="restartProxy">重启</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-popover>
+            <el-button type="primary" icon="setting" :plain="true" v-popover:setting></el-button>
+            <el-popover
+            ref="popovertips"
+            placement="bottom"
+            width="160"
+            v-model="visibleTips">
+                <div style="text-align: right; margin: 0">
+                    <i class="el-icon-close" @click="visibleTips = false"></i>
                 </div>
-            </el-col>
-            -->
-            <el-col :span="16">
-                <div class="grid-content bg-extra-light-gray">
-                    <el-tooltip class="item" effect="light" content="启动代理服务器" placement="bottom-end" v-if="!open">
-                        <el-button type="success" icon="caret-right" @click="toggleProxy" v-if="!open"></el-button>
-                    </el-tooltip>
-                    <el-tooltip class="item" effect="light" content="关闭代理服务器" placement="bottom-end" v-if="open">
-                        <el-button type="danger" icon="close" @click="toggleProxy" v-if="open"></el-button>
-                    </el-tooltip>                        
-                    <el-tooltip class="item" effect="light" content="清除列表" placement="bottom-end">
-                        <el-button type="warning" icon="delete" @click="clearRecorder"></el-button>
-                    </el-tooltip>
-                    <el-tooltip class="item" effect="light" content="代理配置" placement="bottom-end">
-                        <el-button type="primary" icon="menu" @click="setRule"></el-button>
-                    </el-tooltip>
-                    <proxy-filter></proxy-filter>
-                    <!--
-                    <span class="memu-https-status">
-                        <label>HTTPS:</label>
-                        <el-switch on-text="" off-text="" v-model="openHttps"></el-switch>
-                    </span>
-                    -->
-                </div>
-            </el-col>
-            <el-col :span="8">
-                <div class="grid-content bg-extra-light-gray grid-content-right">
-                    <el-popover
-                    ref="setting"
-                    placement="bottom"
-                    width="230"
-                    v-model="visibleSetting">
-                        <el-form ref="form" :model="setting" label-width="80px">
-                            <el-form-item label="端口">
-                                <el-input v-model="setting.port"></el-input>
-                            </el-form-item>
-                            <el-form-item label="全局代理">
-                                <el-switch on-text="" off-text="" v-model="setting.global"></el-switch>
-                            </el-form-item>
-                            <el-form-item label="https">
-                                <el-switch on-text="" off-text="" v-model="setting.forceProxyHttps"></el-switch>
-                            </el-form-item>
-                            <el-form-item label="限速(kb/s)">
-                                <el-select
-                                    v-model="setting.throttle"
-                                    allow-create
-                                    placeholder="No throttling">
-                                    <el-option
-                                        v-for="item in throttleOptions"
-                                        :label="item.label"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item class="menu-setting__btn">
-                                <el-button @click="visibleSetting = false">保存</el-button>
-                                <el-button type="success" @click="restartProxy">重启</el-button>
-                            </el-form-item>
-                        </el-form>
-                    </el-popover>
-                    <el-button type="primary" icon="setting" :plain="true" v-popover:setting></el-button>
-                    <el-popover
-                    ref="popovertips"
-                    placement="bottom"
-                    width="160"
-                    v-model="visibleTips">
-                        <div style="text-align: right; margin: 0">
-                            <i class="el-icon-close" @click="visibleTips = false"></i>
-                        </div>
-                        <p v-if="proxyIp">代理地址：<br/><b>IP:</b> {{proxyIp}} <br/> <b>PORT:</b> {{proxyPort}}</p>
-                        <p v-else>未开启代理</p>
-                    </el-popover>
-                    <el-button type="primary" icon="information" :plain="true" v-popover:popovertips></el-button>
-                    <el-tooltip class="item" content="点击下载https证书" placement="bottom-end">
-                        <el-button type="primary" :plain="true" @click="downloadRootCA">证书</el-button>
-                    </el-tooltip>
-                </div>
-            </el-col>
-        </el-row>
+                <p v-if="proxyIp">代理地址：<br/><b>IP:</b> {{proxyIp}} <br/> <b>PORT:</b> {{proxyPort}}</p>
+                <p v-else>未开启代理</p>
+            </el-popover>
+            <el-button type="primary" icon="information" :plain="true" v-popover:popovertips></el-button>
+            <el-tooltip class="item" content="点击下载https证书" placement="bottom-end">
+                <el-button type="primary" :plain="true" @click="downloadRootCA">证书</el-button>
+            </el-tooltip>
+        </div>
     </div>
 </template>
 <script>
@@ -243,42 +221,45 @@ export default {
             this.$remoteApi.getlatestLog().then((data) => {
                 self.$store.commit(types.UPDATE_RECORDER, data);
             });
-        }, 200)
+        }, 200),
+        setMock() {
+
+        }
     },
     components: {
         proxyFilter
     }
 }
 </script>
-<style>
+<style scope>
 #menu {
-    margin-bottom: 20px;
+    display: -webkit-box;
+}
+.menu-left {
+    -webkit-box-flex: 1;
 }
 .el-row {
-margin-bottom: 20px;
-&:last-child {
-    margin-bottom: 0;
-}
+    margin-bottom: 20px;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 .el-col {
-border-radius: 4px;
+    border-radius: 4px;
 }
 .bg-extra-light-gray {
-background: #EFF2F7;
+    background: #EFF2F7;
 }
 .grid-content {
-border-radius: 4px;
-height: 56px;
-line-height: 56px;
+    border-radius: 4px;
+    height: 56px;
+    line-height: 56px;
 }
 .row-bg {
-padding: 10px 0;
-background-color: #f9fafc;
+    padding: 10px 0;
+    background-color: #f9fafc;
 }
 
-.grid-content > .el-button {
-    margin: 0 10px;
-}
 .grid-content-right {
     text-align: right;
 }

@@ -1,6 +1,6 @@
 <template>
     <!--注意：这里用v-show 和 key 保证切换流畅度，不加key Vue会进行一些运算导致卡顿-->
-    <div>
+    <div id="network_detail">
         <el-collapse v-model="activeNames" v-show="panelType === 'headers'" key="1">
             <el-collapse-item title="General" name="general">
                 <div><b>Request URL: </b>{{headers.url}}</div>
