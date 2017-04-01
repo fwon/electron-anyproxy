@@ -29,6 +29,9 @@ export default {
         return {
             currentTab: 'net'
         }
+    },
+    created() {
+        this.currentTab = location.hash.slice(2)
     }
 }
 </script>
@@ -38,18 +41,23 @@ html, body {
     overflow: hidden;
     width: 100%;
     height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
 }
 body {
   font-family: Helvetica, sans-serif;
   -webkit-user-select: none;
   user-select: none;
-  padding: 0;
-  margin: 0;
 }
 pre {
     margin: 0;
     padding: 10px;
     overflow-x: scroll;
+}
+h1,h2,h3,h4 {
+    margin: 0;
+    padding: 0;
 }
 #app {
     display: -webkit-box;
@@ -87,6 +95,7 @@ pre {
         width: 100%;
         height: 100%;
         color: #fff;
+        font-size: 14px;
         text-decoration: none;
         box-sizing: border-box;
         padding-left: 15px; 

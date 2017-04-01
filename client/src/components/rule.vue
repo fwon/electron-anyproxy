@@ -42,7 +42,7 @@
                 <el-table-column
                 prop="name"
                 label="规则">
-                </el-table-column>index
+                </el-table-column>
                 <el-table-column label="操作">
                 <template scope="scope">
                     <el-button
@@ -76,24 +76,25 @@
 import * as types from '../store/mutation-types';
 import {mapState} from 'vuex';
 import {codemirror} from 'vue-codemirror';
+import util from '../lib/util';
 import _ from 'lodash';
 
 export default {
     data() {
         return {
-            ruleKey: {//样例的id和name列表
+            ruleKey: {      //样例的id和name列表
                 id: '',
                 name: ''
             },
-            ruleName: '',//样例规则的名称
-            ruleValue: '',//样例的代码字符串
+            ruleName: '',   //样例规则的名称
+            ruleValue: '',  //样例的代码字符串
             editorOption: {
                 mode: 'text/javascript',
                 lineNumbers: true,
                 theme: 'monokai',
             },
-            eidtRuleStatus: false,
-            currentSelectIndex: null,
+            eidtRuleStatus: false,    //编辑规则弹窗
+            currentSelectIndex: null, //目前选中的规则
             ruleOptions: [{
                 value: 'modify_request_data',
                 label: '修改请求数据'
@@ -149,7 +150,7 @@ export default {
             console.log(label);
             this.$remoteApi.fetchSampleRule(val).then((data) => {
                 self.ruleKey = {
-                    id: self.generateUUIDv4(),
+                    id: util.generateUUIDv4(),
                     name: self.ruleOptions[_.findIndex(self.ruleOptions, ['value', val])]['label'],
                 };
                 self.ruleValue = data;
@@ -169,16 +170,16 @@ export default {
         saveRule() {
             console.log('add')
             const self = this;
-            let rule = {
-                id: self.ruleKey.id || self.generateUUIDv4(),
+            const rule = {
+                id: self.ruleKey.id || util.generateUUIDv4(),
                 name: self.ruleKey.name,
             };
             if (!rule.name || !this.ruleValue) {
                 this.$alert('无效规则，请重新填写');
                 return;
             }
-            let nameIndex = _.findIndex(this.rulesData, {name: rule.name});
-            let idIndex = _.findIndex(this.rulesData, {id: rule.id});
+            const nameIndex = _.findIndex(this.rulesData, {name: rule.name});
+            const idIndex = _.findIndex(this.rulesData, {id: rule.id});
             if (idIndex !== -1) {
                 console.log('aaaa')
                 this.$store.commit(types.MODIFY_PROXY_RULE, {
@@ -226,12 +227,6 @@ export default {
             //写入文件
             this.$remoteApi.saveRulesIntoFile(this.rulesData);
             this.$remoteApi.saveCustomRuleToFile(id, this.ruleValue);
-        },
-        generateUUIDv4() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                return v.toString(16);
-            });
         }
     }
 }

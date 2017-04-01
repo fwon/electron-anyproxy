@@ -14,6 +14,10 @@ let mainProxy;
 const ruleFile = __dirname + '/rules.json';
 const ruleCustomPath = __dirname + '/rule_custom';
 const ruleSamplePath = __dirname + '/rule_sample';
+
+const mockProjectsFile = __dirname + '/mock-project.json';
+const mockCustomPath = __dirname + '/mock_custom';
+
 const certMgr = require('./proxy.js').utils.certMgr;
 const exec = require('child_process').exec;
 
@@ -208,8 +212,14 @@ module.exports = {
         }
     },
     saveRulesIntoFile(rules) {
-        fs.writeFile(ruleFile, JSON.stringify(rules), 'utf8', (err) => {
-            if (err) throw err;
+        return new Promise((resolve, reject) => {
+            fs.writeFile(ruleFile, JSON.stringify(rules), 'utf8', (err) => {
+                if (err) {
+                    reject();
+                } else {
+                    resolve();
+                }
+            });
         });
     },
     deleteCustomRuleFile(id) {
@@ -266,6 +276,56 @@ module.exports = {
                 reject('');
             }
         });
-    }
+    },
+    /**
+     * Mock相关接口
+     */
+    getMockProjects() {
+        if (fs.existsSync(mockProjectsFile)) {
+            return fs.readFileSync(mockProjectsFile, 'utf8');
+        } else {
+            return '[]';
+        }
+    },
+    saveMockProject(projects) {
+        return new Promise((resolve, reject) => {
+            fs.writeFile(mockProjectsFile, JSON.stringify(projects), 'utf8', (err) => {
+                if (err) {
+                    reject()
+                } else {
+                    resolve();
+                }
+            });
+        });
+    },
+    getProjectPaths(id) {
+        const filename = 'mock_' + id + '.js';
+        const mockpath = path.resolve(mockCustomPath, filename);
+        return new Promise((resolve, reject) => {
+            if (fs.existsSync(mockpath)) {
+                fs.readFile(mockpath, (err, data) => {
+                    if (err) {
+                        reject('');
+                    } else {
+                        resolve(data.toString());
+                    }
+                });
+            } else {
+                reject('');
+            }
+        });
+    },
+    saveProjectPaths(id, paths) {
+        const filename = 'mock_' + id + '.js';
+        if (!fs.existsSync(mockCustomPath)) {
+            fs.mkdir(mockCustomPath);
+        }
+        
+        const mockpath = path.resolve(mockCustomPath, filename);
+
+        fs.writeFile(mockpath, paths, 'utf8', (err) => {
+            if (err) throw err;
+        });
+    },
 }
 

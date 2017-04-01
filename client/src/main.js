@@ -9,6 +9,7 @@ import _ from 'lodash'
 
 import proxyNetwork from './components/network.vue'
 import proxyRule from './components/rule.vue'
+import proxyMock from './components/mock.vue'
 
 //全局插件
 Vue.use(VueRouter);
@@ -22,8 +23,10 @@ Vue.use({
 });
 
 const routes = [
+    {path: '/', component: proxyNetwork},
     {path: '/network', component: proxyNetwork},
-    {path: '/rule', component: proxyRule}
+    {path: '/rule', component: proxyRule},
+    {path: '/mock', component: proxyMock}
 ];
 
 const router = new VueRouter({

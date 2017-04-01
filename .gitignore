@@ -4,4 +4,6 @@ client/node_modules
 pack
 rule_custom
 rules.json
+mock-project.json
 npm-debug.log
+yarn.lock
