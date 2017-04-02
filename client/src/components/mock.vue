@@ -41,12 +41,12 @@
                     </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="addPathStatus = false">取 消</el-button>
+                    <el-button @click="cancelPath">取 消</el-button>
                     <el-button type="primary"  @click="savePath">保 存</el-button>
                 </div>
             </el-dialog>
             <h2>当前项目：{{currentProject.name}}</h2>
-            <el-button type="primary" :plain="true" icon="plus" @click="addPathStatus = true">添加接口</el-button>
+            <el-button type="primary" :plain="true" icon="plus" @click="toAddPath">添加接口</el-button>
             <el-table
                 class="mock-path__list"
                 :data="projectPaths"
@@ -57,12 +57,12 @@
                 width="55">
                 </el-table-column>
                 <el-table-column
-                prop="path"
+                prop="request.url"
                 label="路径"
                 width="400">
                 </el-table-column>
                 <el-table-column
-                prop="method"
+                prop="request.method"
                 label="Method"
                 width="100">
                 </el-table-column>
@@ -99,6 +99,7 @@ export default {
             projectPaths: [],       //某项目下的规则列表
             addPathStatus: false,   //添加规则弹窗
 
+            preEditPath: {},        //编辑前的路径，用于恢复
             pathId: null,           //正在编辑的路径id
             pathRequest: {          //正在编辑的请求
                 url: '/xxx/xxx',
@@ -157,25 +158,85 @@ export default {
                 if (this.currentProject.id === item.id) {
                     this.currentProject = {};
                 }
-            });
+            }, () => {});
         },
         switchProject(item) {
             console.log(item);
             const self = this;
-            this.currentProject = item;
-            this.$remoteApi.getProjectPaths.then((data) => {
+            this.currentProject = item;     
+            this.$remoteApi.getProjectPaths(item.id).then((data) => {
                 self.projectPaths = JSON.parse(data);
+                console.log(self.projectPaths);
+            }, () => {
+                console.log('no projcet data');
+                self.projectPaths = [];
             });
         },
+        toAddPath() {
+            this.addPathStatus = true;
+            this.pathId = null; //恢复
+        },
         savePath() {
+            const self = this;
             //TODO 保存规则到某个项目，区分新增和修改
-            if (this.projectPaths) {}
+            if (this.projectPaths) {
+                if (!this.pathId) { //新增
+                    let item = {
+                        id: util.generateUUIDv4(),
+                        request: _.clone(this.pathRequest),
+                        response: _.clone(this.pathResponse)
+                    };
+                    this.projectPaths.push(item);
+                    console.log(this.projectPaths);
+                } else {
+                    let idIndex = _.findIndex(this.projectPaths, {id: this.pathId}); 
+                    let item = {
+                        id: this.pathId,
+                        request: _.clone(this.pathRequest),
+                        response: _.clone(this.pathResponse)
+                    };
+                    this.$set(this.projectPaths, idIndex, item);
+                }
+                this.$remoteApi.saveProjectPaths(this.currentProject.id, this.projectPaths).then(() => {
+                    self.$notify({
+                        message: '保存成功',
+                        duration: 1000
+                    });
+                    self.addPathStatus = false;
+                });
+            }
         },
-        handleEdit() {
-
+        cancelPath() {
+            //恢复状态
+            this.pathRequest = this.preEditPath.request;
+            this.pathResponse = this.preEditPath.response;
+            
+            this.addPathStatus = false
         },
-        handleDelete() {
-
+        handleEdit(index, row) {
+            this.preEditPath = row;
+            
+            this.pathId = row.id;
+            this.pathRequest = _.clone(row.request);
+            this.pathResponse = _.clone(row.response);
+            
+            this.addPathStatus = true;
+        },
+        handleDelete(index, row) {
+            const self = this;
+            this.$confirm('确定要删除该路径吗?', {
+                type: 'warning'
+            }).then(() => {
+                const idIndex  = _.findIndex(this.projectPaths, {id: row.id});
+                this.projectPaths.splice(idIndex, 1);
+                this.$remoteApi.saveProjectPaths(this.currentProject.id, this.projectPaths).then(() => {
+                    self.$notify({
+                        message: '删除成功',
+                        duration: 1000
+                    });
+                });
+                
+            });
         },
         handlePathChange() {
 
@@ -186,6 +247,7 @@ export default {
 <style scope>
 #mock {
     display: -webkit-box;
+    -webkit-box-flex: 1;
     -webkit-box-orient: horizontal;
     padding: 30px;
 }

@@ -317,14 +317,20 @@ module.exports = {
     },
     saveProjectPaths(id, paths) {
         const filename = 'mock_' + id + '.js';
-        if (!fs.existsSync(mockCustomPath)) {
-            fs.mkdir(mockCustomPath);
-        }
-        
-        const mockpath = path.resolve(mockCustomPath, filename);
+        return new Promise((resolve, reject) => {
+            if (!fs.existsSync(mockCustomPath)) {
+                fs.mkdir(mockCustomPath);
+            }
+            
+            const mockpath = path.resolve(mockCustomPath, filename);
 
-        fs.writeFile(mockpath, paths, 'utf8', (err) => {
-            if (err) throw err;
+            fs.writeFile(mockpath, JSON.stringify(paths), 'utf8', (err) => {
+                if (err) {
+                    reject();
+                } else {
+                    resolve();
+                }
+            });
         });
     },
 }

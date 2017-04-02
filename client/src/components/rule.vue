@@ -266,7 +266,7 @@ export default {
 }
 
 .rules-list {
-    width: 90%;
+    width: 100%;
     overflow: hidden;
     padding: 20px;
     border-radius: 10px;
