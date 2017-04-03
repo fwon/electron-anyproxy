@@ -8,6 +8,7 @@ const packageInfo = require('./package.json');
 const ProxyServer = require('./proxy.js').ProxyServer;
 const path = require('path');
 const fs = require('fs');
+const mockjs = require('mockjs');
 let ruleModule;
 let mainProxy;
 
@@ -27,6 +28,21 @@ const MSG_OPEN_PROXY_ERROR = '开启失败';
 const MSG_HASNOT_OPEN_PROXY = '未开启代理';
 const MSG_CLOSE_PROXY_SUCCESS = '关闭成功';
 
+function prepareMocks(mocks) {
+    let mockPaths = {}
+    const localResponse = {
+      statusCode: 200,
+      header: { 'Content-Type': 'application/json' },
+      body: '{"hello": "this is local response"}'
+    };
+    if (requestDetail.url.indexOf('http://httpbin.org') === 0) {
+      return {
+        response: localResponse
+      };
+    }
+}
+
+//获取rule文件
 function getRuleModule(id) {
     if (!id) return null;
     const pathname = './rule_custom';
@@ -39,10 +55,48 @@ function getRuleModule(id) {
     }
 }
 
+//合并rule和mock(mock也是一种rule)
+function combineRuleAndMock(ruleid, mocks) {
+    let rules = getRuleModule(ruleid) || {};
+    if (!mocks) return rules;
+    //覆盖rules的beforeRequest
+    return Object.assign(rules, {
+        *beforeSendRequest(requestDetail) {
+            //先调用rules的beforeRequest
+            if (rules.beforeSendRequest) {
+                rules.beforeSendRequest(requestDetail);
+            }
+            //再调用mock
+            const reqOptions = requestDetail.requestOptions;
+            let localResponse = null;
+            mocks.forEach((item) => {
+                let req = item.request;
+                let res = item.response;
+                let resHeader = res.headers.split(/[:;]/g);
+                resHeader.pop();
+                if (requestDetail.url.indexOf(req.url) === 0 &&
+                    reqOptions.method.toLowerCase() === req.method.toLowerCase()) {
+                    localResponse = {
+                        statusCode: res.status,
+                        header: util.getHeaderFromRawHeaders(resHeader),
+                        body: JSON.stringify(mockjs.mock(JSON.parse(res.body)))
+                    }
+                }
+            });
+            if (localResponse) {
+                return {
+                    response: localResponse
+                };
+            }
+        }
+    });
+    
+}
+
+//proxy工厂
 function createProxy(options) {
-    console.log(options);
     return mainProxy || new ProxyServer(Object.assign({
-        rule: getRuleModule(options.ruleid),
+        rule: combineRuleAndMock(options.ruleid, options.mock),
         webInterface: {
             enable: false,
         },
@@ -51,6 +105,7 @@ function createProxy(options) {
     }, options));
 }
 
+//proxy回调
 function proxyCbManager(action, options) {
     if (action === 'start') {
         return function(resolve, reject) {
@@ -58,7 +113,7 @@ function proxyCbManager(action, options) {
                 resolve({
                     msg: MSG_HAD_OPEN_PROXY,
                     open: true,
-                    ip: options.ip,
+                    ip: options.ip || ip.address(),
                     port: options.port
                 });
             } else {
@@ -105,11 +160,26 @@ module.exports = {
     /**
      * recorder 相关接口
      */
+    getSingleLog(id) {
+        return new Promise((resolve, reject) => {
+            if (global.recorder) {
+                global.recorder.getSingleRecord(id, (err, data) => {
+                    if (err) {
+                        reject(err.toString());
+                    } else {
+                        resolve(data[0]);
+                    }
+                })
+            } else {
+                reject();
+            }
+        });
+    },
     getlatestLog() {
         let self = this;
         return new Promise((resolve, reject) => {
             if (global.recorder) {
-                global.recorder.getRecords(null, 200, (err, docs) => {
+                global.recorder.getRecords(null, 10000, (err, docs) => {
                     if (err) {
                         reject(err.toString());
                     } else {
