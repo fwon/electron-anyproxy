@@ -3,6 +3,7 @@ client/node_modules
 .vscode
 pack
 rule_custom
+mock_custom
 rules.json
 mock-project.json
 npm-debug.log
