@@ -32,8 +32,6 @@
                     <div class="mock-path-editor__right">
                         <h4>Status Code</h4>
                         <el-input type="input" v-model="pathResponse.status"></el-input>
-                        <h4>Response Format</h4>
-                        <el-input type="input" v-model="pathResponse.format"></el-input>
                         <h4>Response Headers</h4>
                         <el-input type="input" v-model="pathResponse.headers"></el-input>
                         <h4>Response Body</h4>
@@ -87,6 +85,7 @@
 import {codemirror} from 'vue-codemirror';
 import util from '../lib/util';
 import _ from 'lodash';
+import * as types from '../store/mutation-types';
 
 export default {
     data() {
@@ -107,8 +106,7 @@ export default {
             },
             pathResponse: {         //正在编辑的返回数据
                 status: '200',
-                format: 'application/json;charset=UTF-8',
-                headers: 'Access-Control-Allow-Origin:*;Connection:keep-alive;',
+                headers: 'Content-Type:application/json;Access-Control-Allow-Origin:*;',
                 body: ''
             },
 
@@ -120,6 +118,9 @@ export default {
         }
     },
     computed: {
+        // multipleSelection() {
+        //     return this.$store.state.mock_paths;
+        // }
     },
     components: {
         codemirror
@@ -161,7 +162,6 @@ export default {
             }, () => {});
         },
         switchProject(item) {
-            console.log(item);
             const self = this;
             this.currentProject = item;     
             this.$remoteApi.getProjectPaths(item.id).then((data) => {
@@ -187,7 +187,6 @@ export default {
                         response: _.clone(this.pathResponse)
                     };
                     this.projectPaths.push(item);
-                    console.log(this.projectPaths);
                 } else {
                     let idIndex = _.findIndex(this.projectPaths, {id: this.pathId}); 
                     let item = {
@@ -238,8 +237,9 @@ export default {
                 
             });
         },
-        handlePathChange() {
-
+        handlePathChange(val) {
+            //此处不能直接赋值val, 会变成引用element值，导致vuex报错
+            this.$store.commit(types.SET_SELECTED_MOCKPATH, _.clone(val));
         }
     }
 }

@@ -127,7 +127,8 @@ export default {
         open: state => !!state.proxy_is_open,
         proxyPort: state => state.proxy_port,
         proxyIp: state => state.proxy_ip,
-        currentRule: state => state.current_rule
+        currentRule: state => state.current_rule,
+        mockPaths: state => state.mock_paths
     }),
     methods: {
         toggleProxy() {
@@ -142,6 +143,9 @@ export default {
             const self = this;
             if (this.currentRule.id) {
                 this.setting.ruleid = this.currentRule.id;
+            }
+            if (this.mockPaths && this.mockPaths.length) {
+                this.setting.mock = this.mockPaths;
             }
             this.$remoteApi.startProxy(this.setting).then((res) => {
                 self.$notify({
@@ -170,7 +174,7 @@ export default {
                     duration: 2000,
                 });
                 self.$remoteApi.offUpdate();
-            }, () => {
+            }, (res) => {
                 self.$notify({
                     message: res.msg,
                     type: 'error',

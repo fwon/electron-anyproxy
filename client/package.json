@@ -8,7 +8,6 @@
     "element-ui": "^1.0.0",
     "highlight.js": "^9.10.0",
     "lodash": "^4.17.4",
-    "mockjs": "^1.0.1-beta3",
     "moment": "^2.17.1",
     "vue": "^2.1.6",
     "vue-codemirror": "^2.1.8",
