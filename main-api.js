@@ -242,7 +242,7 @@ module.exports = {
                     } else {
                         exec('open .', {cwd: certDir});
                     }
-                    successCb && successCb('证书下载成功，请双击证书安装');
+                    successCb && successCb('证书下载成功，请双击crt证书安装');
                 } else {
                     errorCb && errorCb('证书下载错误');
                     console.error('error when generating rootCA', error);

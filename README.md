@@ -22,6 +22,11 @@
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-4.png)
 
 ## 数据Mock
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-5.png)
+
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-6.png)
+
+Mock数据配置参考[Mock.js规则](http://mockjs.com/examples.html)
 
 ## 本地运行
 ```javascript
