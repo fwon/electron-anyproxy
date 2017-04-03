@@ -28,7 +28,7 @@
             <el-table-column
             property="host"
             label="Host"
-            width="300">
+            width="280">
             </el-table-column>
             <el-table-column
             property="path"
@@ -76,7 +76,10 @@ export default {
         return {
             responseData: '',
             responseData: '',
-            currentRow: {},
+            currentRow: {
+                reqHeader: {},
+                resHeader: {}
+            },
             activeName: 'headers',
             detailPanelStatus: false,
             detailContent: {}
@@ -105,14 +108,20 @@ export default {
         },
         handleCurrentChange(val) {
             let self = this;
-            if (this.currentRow === val) {
+            if (this.currentRow.id === val.id) {
                 this.detailPanelStatus = !this.detailPanelStatus;
             } else {
                 this.detailPanelStatus = true;
-                this.currentRow = val;
+                
+                this.$remoteApi.getSingleLog(val.id).then((rec) => {
+                    console.log('rec')
+                    console.log(rec);
+                    self.currentRow = rec || {};
+                    
+                }, () => {});
                 this.$remoteApi.fetchBody(val.id).then((data) => {
                     self.detailContent = data;
-                });
+                }, () => {});
             }
         },
         dateFormatter(row, column) {

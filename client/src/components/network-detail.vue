@@ -70,7 +70,9 @@ export default {
                     url: '',
                     method: '',
                     statusCode: '',
-                    protocal: ''
+                    protocal: '',
+                    reqHeader: {},
+                    resHeader: {}
                 }
             }
         },
