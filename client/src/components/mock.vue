@@ -98,7 +98,7 @@ export default {
             projectPaths: [],       //某项目下的规则列表
             addPathStatus: false,   //添加规则弹窗
 
-            preEditPath: {},        //编辑前的路径，用于恢复
+            preEditPath: null,      //编辑前的路径，用于恢复
             pathId: null,           //正在编辑的路径id
             pathRequest: {          //正在编辑的请求
                 url: '/xxx/xxx',
@@ -174,7 +174,17 @@ export default {
         },
         toAddPath() {
             this.addPathStatus = true;
-            this.pathId = null; //恢复
+            this.preEditPath = null;
+            this.pathId = null;    //恢复
+            this.pathRequest = {   //正在编辑的请求
+                url: '/xxx/xxx',
+                method: 'GET'
+            };
+            this.pathResponse = {  //正在编辑的返回数据
+                status: '200',
+                headers: 'Content-Type:application/json;Access-Control-Allow-Origin:*;',
+                body: ''
+            };
         },
         savePath() {
             const self = this;
@@ -207,9 +217,10 @@ export default {
         },
         cancelPath() {
             //恢复状态
-            this.pathRequest = this.preEditPath.request;
-            this.pathResponse = this.preEditPath.response;
-            
+            if (this.preEditPath) {
+                this.pathRequest = this.preEditPath.request;
+                this.pathResponse = this.preEditPath.response;
+            }
             this.addPathStatus = false
         },
         handleEdit(index, row) {
@@ -284,7 +295,7 @@ export default {
         margin-bottom: 27px;
     }
     .CodeMirror {
-        height: 100px;
+        height: 200px;
     }
 }
 .mock-path-editor {
