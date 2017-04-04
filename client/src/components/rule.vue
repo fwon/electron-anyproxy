@@ -27,14 +27,15 @@
             </div>
         </el-dialog>
         <div class="rules-list">
-            <el-button type="primary" :plain="true" icon="plus" @click="eidtRuleStatus = true">添加</el-button>
+            <el-button type="primary" :plain="true" icon="plus" @click="eidtRuleStatus = true">添加规则</el-button>
             <el-table
                 :data="rulesData"
                 border
                 :row-class-name="tableRowClassName">
                 <el-table-column
                 type="index"
-                label="#">
+                label="状态"
+                width="65">
                 <template scope="scope">
                     <i class="el-icon-check"></i>
                 </template>
@@ -277,7 +278,7 @@ export default {
     margin-top: 20px;
     .el-icon-check {
         color: #13CE66;
-        margin-left: -7px;
+        margin-left: 5px;
         display:none;
     }
     .current-row > td {

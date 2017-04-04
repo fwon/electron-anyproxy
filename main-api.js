@@ -28,20 +28,6 @@ const MSG_OPEN_PROXY_ERROR = '开启失败';
 const MSG_HASNOT_OPEN_PROXY = '未开启代理';
 const MSG_CLOSE_PROXY_SUCCESS = '关闭成功';
 
-function prepareMocks(mocks) {
-    let mockPaths = {}
-    const localResponse = {
-      statusCode: 200,
-      header: { 'Content-Type': 'application/json' },
-      body: '{"hello": "this is local response"}'
-    };
-    if (requestDetail.url.indexOf('http://httpbin.org') === 0) {
-      return {
-        response: localResponse
-      };
-    }
-}
-
 //获取rule文件
 function getRuleModule(id) {
     if (!id) return null;

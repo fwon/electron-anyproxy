@@ -91,6 +91,7 @@ h1,h2,h3,h4 {
     }
     &.active {
         box-shadow: inset 4px 0px 13px #222;
+        border-left: 5px solid #669999;
     }
     a {
         display: inline-block;

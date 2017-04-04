@@ -271,6 +271,10 @@ export default {
 .mock-project-item {
    position: relative;
    text-align: center;
+   border-top: 1px solid rgba(151, 168, 190, 0.17);
+   &:first-child {
+        border: none;
+   }
    &:hover {
        i {
            display: inline-block;
