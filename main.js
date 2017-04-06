@@ -1,6 +1,8 @@
 const electron = require('electron');
+const menuTemplate = require('./menu.js');
 const ipcMain = electron.ipcMain;
 const app = electron.app;
+const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
@@ -13,6 +15,8 @@ function createWindow() {
         backgroundColor: '#fff'
     });
 
+    mainWindow.setTitle(require('./package.json').name);
+
     mainWindow.loadURL(`file://${__dirname}/client/index.html`);
 
     // mainWindow.loadURL('http://localhost:4000');
@@ -23,10 +27,14 @@ function createWindow() {
     });
 }
 
+function createMenu() {
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
+}
 
 app.on('ready', () => {
     createWindow();
-    // setUpProxy();
+    createMenu();
 });
 
 app.on('window-all-closed', () => {
