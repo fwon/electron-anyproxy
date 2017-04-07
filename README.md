@@ -6,8 +6,9 @@
 
 ## 功能
 1. 网络抓包：提供类似Chrome的预览功能，支持http/https。
-2. 数据拦截：支持修改请求头，请求数据，返回头，返回数据等。所以也支持接口mock。
+2. 数据拦截：支持修改请求头，请求数据，返回头，返回数据等。
 3. 网速限制：模拟各种网段的网速。
+4. 接口Mock: 根据具体项目管理模拟mock接口
 
 ## 网络抓取
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-1.png)
