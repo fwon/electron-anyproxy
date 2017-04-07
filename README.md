@@ -26,6 +26,7 @@
 
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-6.png)
 
+代理的配置和证书安装说明可参考[这里](http://anyproxy.io/4.x/cn.html#配置帮助)
 Mock数据配置参考[Mock.js规则](http://mockjs.com/examples.html)
 
 ## 本地运行
