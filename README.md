@@ -1,6 +1,8 @@
+中文|[English](https://github.com/fwon/electron-anyproxy/blob/master/README_EN.md)
+
 <p><img width="180" src="https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png"></p>
 
-📢  A Proxy client, base on Anyproxy. Building with Electron and Vue. 
+📢  一个网络代理客户端, 依赖于 Anyproxy. 构建在 Electron 和 Vue 之上. 
 
 [![Build Status](https://travis-ci.org/fwon/electron-anyproxy.svg?branch=master)](https://travis-ci.org/fwon/electron-anyproxy)
 
@@ -27,9 +29,12 @@
 
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-6.png)
 
-代理的配置和证书安装说明可参考[这里](http://anyproxy.io/4.x/cn.html#配置帮助)
+## Q&A
+1. 如何配置代理和安装证书？
+[点这里](http://anyproxy.io/4.x/cn.html#配置帮助)
 
-Mock数据配置参考[Mock.js规则](http://mockjs.com/examples.html)
+2. 如何编写Mock数据？
+[点这里](http://mockjs.com/examples.html)
 
 ## 本地运行
 ```javascript
@@ -42,7 +47,9 @@ npm install //or yarn, 若已安装则无需次命令
 npm run pack
 ```
 软件将会打包到`pack`目录下，双击运行
->打包时建议用yarn安装npm包，因为npm install会在node_modules中安装隐藏目录，导致electron-packager打包的时候无法将electron等大文件删除，打包出来的软件包会很大。
+
+## 注意
+打包时建议用yarn安装npm包，因为npm install会在node_modules中安装隐藏目录，导致electron-packager打包的时候无法将electron等大文件删除，打包出来的软件包会很大。
 
 ## LISCENCE
 MIT
