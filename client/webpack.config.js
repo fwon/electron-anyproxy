@@ -5,8 +5,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './dist'),        //真实存放路径
+    publicPath: path.resolve(__dirname, './dist'), //引用路径
     filename: 'build.js'
   },
   module: {
@@ -42,14 +42,14 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'url-loader',
         query: {
-            name: '[name].[ext]?[hash]'
+            name: '[name].[ext]'
         }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
         loader: 'file-loader',
         query: {
-          name: '[name].[ext]?[hash]'
+          name: '/[name].[ext]'
         }
       }
     ]

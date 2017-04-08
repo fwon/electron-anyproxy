@@ -32,7 +32,6 @@ const routes = [
 const router = new VueRouter({
     routes
 });
-console.log('aaaaa');
 
 new Vue({
     el: '#app',
