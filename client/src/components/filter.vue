@@ -2,7 +2,7 @@
     <div id="filter">
         <el-input
             v-model="filterPattern"
-            placeholder="查找请求"
+            placeholder="Filter"
             icon="circle-close"
             :on-icon-click="clearFilterContent">
         </el-input>

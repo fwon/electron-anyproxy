@@ -228,15 +228,15 @@ module.exports = {
                     } else {
                         exec('open .', {cwd: certDir});
                     }
-                    successCb && successCb('证书下载成功，请双击crt证书安装');
+                    successCb && successCb('success');
                 } else {
-                    errorCb && errorCb('证书下载错误');
+                    errorCb && errorCb('error');
                     console.error('error when generating rootCA', error);
                 }
             });
         } else {
             console.log('c');
-            successCb && successCb('证书已存在');
+            successCb && successCb('exist');
             const rootPath = util.getAnyProxyPath('certificates');
             if (!rootPath) return;
             if (isWin) {

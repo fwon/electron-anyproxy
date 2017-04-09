@@ -43,7 +43,10 @@
                     <el-button type="primary"  @click="savePath">保 存</el-button>
                 </div>
             </el-dialog>
-            <h2>当前项目：{{currentProject.name}}</h2>
+            <h2>当前项目：{{currentProject.name}}
+            <el-tooltip class="item" effect="light" content="注意：切换项目或勾选接口后要重新启动代理才能生效" placement="right">
+            <i class="el-icon-information"></i>
+            </el-tooltip></h2>
             <el-button type="primary" :plain="true" icon="plus" @click="toAddPath">添加接口</el-button>
             <el-table
                 class="mock-path__list"
@@ -297,6 +300,11 @@ export default {
     h2 {
         color: #669999;
         margin-bottom: 27px;
+        .el-icon-information {
+            color: #ccc;
+            font-size: 15px;
+            vertical-align: 3px;
+        }
     }
     .CodeMirror {
         height: 200px;

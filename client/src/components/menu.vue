@@ -197,16 +197,21 @@ export default {
         },
         downloadRootCA() {
             const h = this.$createElement;
+            const message = {
+                success: '证书下载成功，请双击crt证书安装',
+                exist: '证书已存在',
+                error: '证书下载错误'
+            };
             this.$remoteApi.generateRootCA((msg) => {
                 this.$notify({
                     title: '提示',
-                    message: h('p', {style: 'color:green'}, msg),
+                    message: h('p', {style: 'color:green'}, message[msg]),
                     duration: 2000
                 });
             },(msg) => {
                 this.$notify({
                     title: '提示',
-                    message: h('p', {style: 'color:red'}, msg),
+                    message: h('p', {style: 'color:red'}, message[msg]),
                     duration: 2000
                 });
             });
