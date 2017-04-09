@@ -1,6 +1,5 @@
 <template>
     <div id="network">
-        <proxy-menu></proxy-menu>
         <el-table
             class="nt-record-list"
             :data="tableData"
@@ -67,7 +66,7 @@
 <script>
 import moment from 'moment';
 import {mapState} from 'vuex';
-import proxyMenu from './menu.vue'
+// import proxyMenu from './menu.vue'
 import networkDetail from './network-detail.vue';
 import * as types from '../store/mutation-types';
 
@@ -87,7 +86,7 @@ export default {
     },
     components: {
         networkDetail,
-        proxyMenu
+        // proxyMenu
     },
     computed: {
         tableData() {
@@ -141,6 +140,7 @@ export default {
     padding: 20px 30px;
     -webkit-user-select: text;
     box-sizing: border-box;
+    margin-top: 60px;
     .el-table td {
         height: 30px;
     }

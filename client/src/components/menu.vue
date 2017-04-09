@@ -243,6 +243,13 @@ export default {
 <style scope>
 #menu {
     display: -webkit-box;
+    display: -webkit-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 30px 0 170px;
+    box-sizing: border-box;
 }
 .menu-left {
     -webkit-box-flex: 1;

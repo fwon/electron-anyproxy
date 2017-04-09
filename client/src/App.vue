@@ -18,6 +18,7 @@
             <router-link to="/mock">数据Mock</router-link>
         </div>
     </div>
+    <proxy-menu></proxy-menu>
     <keep-alive>
         <router-view></router-view>
     </keep-alive>
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import proxyMenu from './components/menu.vue'
 
 export default {
     data () {
@@ -34,6 +36,9 @@ export default {
     },
     created() {
         this.currentTab = location.hash.slice(2)
+    },
+    components: {
+        proxyMenu
     }
 }
 </script>

@@ -44,7 +44,7 @@
                 </div>
             </el-dialog>
             <h2>当前项目：{{currentProject.name}}
-            <el-tooltip class="item" effect="light" content="注意：切换项目或勾选接口后要重新启动代理才能生效" placement="right">
+            <el-tooltip class="item" effect="light" content="注意：切换项目或勾选接口后要重新启动代理" placement="right">
             <i class="el-icon-information"></i>
             </el-tooltip></h2>
             <el-button type="primary" :plain="true" icon="plus" @click="toAddPath">添加接口</el-button>
@@ -264,6 +264,7 @@ export default {
     -webkit-box-flex: 1;
     -webkit-box-orient: horizontal;
     padding: 30px;
+    margin-top: 60px;
 }
 .mock-project {
     width: 200px;

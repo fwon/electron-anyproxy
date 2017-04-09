@@ -11,7 +11,7 @@ function createWindow() {
         width: 1200,
         height: 780,
         icon: __dirname + '/icon.png',
-        titleBarStyle: 'hidden-inset',
+        // titleBarStyle: 'hidden-inset',
         backgroundColor: '#fff'
     });
 

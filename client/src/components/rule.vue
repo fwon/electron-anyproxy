@@ -67,6 +67,9 @@
                     @click="handleCurrentChange(scope.$index, scope.row)"
                     v-else>
                     应用</el-button>
+                    <el-tooltip class="item" effect="light" content="注意：应用规则后要重新启动代理" placement="right">
+                    <i class="el-icon-information"></i>
+                    </el-tooltip>
                 </template>
                 </el-table-column>
             </el-table>
@@ -239,7 +242,7 @@ export default {
     padding: 10px;
     background: #fff;
     box-sizing: border-box;
-    display: -webkit-box;
+    margin-top: 60px;
     .CodeMirror {
         min-height: 320px;
         font-size: 13px;
@@ -272,7 +275,6 @@ export default {
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
-    
 }
 .rules-list .el-table {
     margin-top: 20px;
@@ -286,6 +288,10 @@ export default {
         .el-icon-check {
             display: initial;
         }
+    }
+    .el-icon-information {
+        color: #ccc;
+        margin-left: 5px;
     }
 }
 .el-button+.el-button {

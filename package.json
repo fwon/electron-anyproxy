@@ -1,6 +1,6 @@
 {
   "name": "electron-anyproxy",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A Electron client for Anyproxy",
   "main": "main.js",
   "scripts": {
