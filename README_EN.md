@@ -14,21 +14,16 @@
 
 
 ## Records traffic
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-1.png)
-
-## Network intercept
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-2.png)
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-1.png)
 
 ## Network intercept Setting
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-3.png)
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-2.png)
 
 ## Network simulates
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-4.png)
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-3.png)
 
 ## API Mock
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-5.png)
-
-![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-shot-6.png)
+![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-4.png)
 
 ## Q&A
 1. How to set proxy and Install certificates?
