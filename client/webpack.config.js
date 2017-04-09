@@ -1,12 +1,15 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var isPro = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),        //真实存放路径
-    publicPath: path.resolve(__dirname, './dist'), //引用路径
+    publicPath: isPro ? 
+                path.resolve(__dirname, './dist') : //发布引用路径
+                '/dist/',                           //开发引用路径
     filename: 'build.js'
   },
   module: {
