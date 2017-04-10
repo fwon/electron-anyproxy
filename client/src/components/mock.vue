@@ -258,7 +258,7 @@ export default {
     }
 }
 </script>
-<style scope>
+<style lang="less" scope>
 #mock {
     display: -webkit-box;
     -webkit-box-flex: 1;

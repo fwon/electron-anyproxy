@@ -35,7 +35,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 #filter {
     display:inline-block;
 }
