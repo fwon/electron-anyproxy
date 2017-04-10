@@ -25,11 +25,7 @@
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-4.png)
 
 ## Q&A
-1. 如何配置代理和安装证书？
-[点这里](http://anyproxy.io/4.x/cn.html#配置帮助)
-
-2. 如何编写Mock数据？
-[点这里](http://mockjs.com/examples.html)
+请参考[使用文档](https://fwon.github.io/e-anyproxy/help.html)
 
 ## 本地运行
 ```javascript
