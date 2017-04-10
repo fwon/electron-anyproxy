@@ -240,7 +240,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 #menu {
     display: -webkit-box;
     display: -webkit-box;

@@ -235,7 +235,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 #rules_panel {
     display: -webkit-box;
     -webkit-box-flex: 1;

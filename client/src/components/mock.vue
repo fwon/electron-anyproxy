@@ -258,43 +258,44 @@ export default {
     }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 #mock {
     display: -webkit-box;
     -webkit-box-flex: 1;
     -webkit-box-orient: horizontal;
     padding: 30px;
     margin-top: 60px;
+    .mock-project-list {
+        margin-top: 20px;
+    }
+    .mock-project-item {
+        position: relative;
+        text-align: center;
+        border-top: 1px solid rgba(151, 168, 190, 0.17);
+        &:first-child {
+                border: none;
+        }
+        &:hover {
+            i {
+                display: inline-block;
+            }
+        }
+        i {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40%;
+        }
+        &.is-active {
+                color: #fff;
+                background-color: #669999;
+        }
+    }
 }
 .mock-project {
     width: 200px;
 }
-.mock-project-list {
-    margin-top: 20px;
-}
-.mock-project-item {
-   position: relative;
-   text-align: center;
-   border-top: 1px solid rgba(151, 168, 190, 0.17);
-   &:first-child {
-        border: none;
-   }
-   &:hover {
-       i {
-           display: inline-block;
-       }
-   }
-   i {
-       display: none;
-       position: absolute;
-       right: 0;
-       top: 40%;
-   }
-   &.is-active {
-        color: #fff;
-        background-color: #669999;
-   }
-}
+
 .mock-path {
     -webkit-box-flex: 1;
     margin-left: 40px;

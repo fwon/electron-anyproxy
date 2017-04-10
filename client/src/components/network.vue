@@ -1,7 +1,7 @@
 <template>
     <div id="network">
         <el-table
-            class="nt-record-list"
+            id="nt-record-list"
             :data="tableData"
             highlight-current-row
             stripe
@@ -132,7 +132,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 #network {
     display: -webkit-box;
     -webkit-box-flex: 1;
@@ -141,9 +141,6 @@ export default {
     -webkit-user-select: text;
     box-sizing: border-box;
     margin-top: 60px;
-    .el-table td {
-        height: 30px;
-    }
 }
 #network_pannel {
     position: absolute;
@@ -152,6 +149,7 @@ export default {
     background-color: #fff;
     width: 50%;
     height:100%;
+    overflow-y: scroll;
     box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
     z-index: 999;
 }
@@ -181,13 +179,18 @@ export default {
     margin-bottom: 0;
 }
 .el-tabs__content {
-    height: 550px;
+    height: 100%;
     overflow-y: scroll;
     padding: 20px;
 }
 
-.nt-record-list .cell {
-    white-space: nowrap;
+#nt-record-list {
+    td {
+        height: 30px;
+        .cell {
+            white-space: nowrap;
+        }
+    }
 }
 
 #close_panel {

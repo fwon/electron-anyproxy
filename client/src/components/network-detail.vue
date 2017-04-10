@@ -130,7 +130,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 .el-collapse-item__header {
     font-weight: 900;
     height: 25px;
