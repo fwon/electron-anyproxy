@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type='text/css'>
+        html,body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            -webkit-user-select: none;
+            font-family: sans-serif;
+            background-color: #fff;
+        }
+        .loading {
+            display: -webkit-box;
+            width:100%;
+            height: 100%;
+            -webkit-box-orient: horizontal;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            margin-top: -10px;
+        }
+        .loading .logo {
+            display: -webkit-box;
+            width: 130px;
+            height: 130px;
+            background: url('./src/assets/icon.png') center center no-repeat;
+            background-size: 130px auto;
+        }
+        .loading .slogan {
+            margin-left: 40px;
+            box-shadow: border-box;
+        }
+        .loading .name {
+            font-size: 50px;
+            letter-spacing: 5px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            box-shadow: border-box;
+        }
+        .loading .sub {
+            color: #ccc;
+            text-align: center;
+            box-shadow: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <span class="logo"></span>
+        <div class="slogan">
+            <p class="name"><b>Anyproxy</b></p>
+            <p class="sub">proxy and more...</p>        
+        </div>
+    </div>
+</body>
+</html>

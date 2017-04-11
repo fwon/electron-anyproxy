@@ -4,26 +4,60 @@ const ipcMain = electron.ipcMain;
 const app = electron.app;
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
+let loadingParams = {
+    width: 580,
+    height: 200,
+    frame: false,
+    show: false
+};
+let mainParams = {
+    width: 1300,
+    height: 780,
+    icon: __dirname + '/icon.png',
+    // titleBarStyle: 'hidden-inset',
+    backgroundColor: '#fff',
+    show: false
+};
+
 let mainWindow;
 
 function createWindow() {
-    mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 780,
-        icon: __dirname + '/icon.png',
-        // titleBarStyle: 'hidden-inset',
-        backgroundColor: '#fff'
-    });
-
+    mainWindow = new BrowserWindow(mainParams);
     mainWindow.setTitle(require('./package.json').name);
 
-    mainWindow.loadURL(`file://${__dirname}/client/index.html`);
+    //setting in .vscode/launch.json
+    if (process.env.NODE_ENV === 'development') {
+        console.log('develop');
+        mainWindow.loadURL('http://localhost:4000');
+        mainWindow.webContents.openDevTools();
+    } else {
+        mainWindow.loadURL(`file://${__dirname}/client/index.html`); 
+    }
 
-    // mainWindow.loadURL('http://localhost:4000');
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.on('did-finish-load', () => {
+        mainWindow.show();
+        if (loadingScreen) {
+            loadingScreen.close();
+        }
+    });
 
     mainWindow.on('closed', () => {
         mainWindow = null;
+    });
+}
+
+function createLoadingScreen() {
+    loadingScreen = new BrowserWindow(Object.assign(loadingParams, {parent: mainWindow}));
+    
+    if (process.env.NODE_ENV === 'development') {
+        loadingScreen.loadURL('http://localhost:4000/loading.html');
+    } else {
+        loadingScreen.loadURL(`file://${__dirname}/client/loading.html`);
+    }
+    
+    loadingScreen.on('closed', () => loadingScreen = null);
+    loadingScreen.webContents.on('did-finish-load', () => {
+        loadingScreen.show();
     });
 }
 
@@ -33,6 +67,7 @@ function createMenu() {
 }
 
 app.on('ready', () => {
+    createLoadingScreen();
     createWindow();
     createMenu();
 });
