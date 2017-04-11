@@ -42,9 +42,9 @@ const template = [
       {
         role: 'forcereload'
       },
-      {
-        role: 'toggledevtools'
-      },
+    //   {
+    //     role: 'toggledevtools'
+    //   },
       {
         type: 'separator'
       },
