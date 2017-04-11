@@ -27,12 +27,15 @@
 
 ## Q&A
 1. How to set proxy and Install certificates?
+
 [Click me](http://anyproxy.io/4.x/en.html#appendix)
 
 2. How to mock api data?
+
 [Click me](http://mockjs.com/examples.html)
 
 3. How to set Locale language?
+
 **Menu:** View --> language
 
 ## Dev Run

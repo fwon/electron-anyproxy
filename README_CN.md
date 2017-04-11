@@ -25,8 +25,9 @@
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-4.png)
 
 ## Q&A
-请参考[使用文档](https://fwon.github.io/e-anyproxy/help.html)
-**多语言：**软件新支持多语言切换 View->language
+中文使用文档：[地址](https://fwon.github.io/e-anyproxy/help.html)
+
+**多语言支持：**菜单 View->language
 
 ## 本地运行
 ```javascript
