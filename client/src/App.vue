@@ -2,19 +2,13 @@
   <div id="app">
     <div id="sidenav" class="sidenav">
         <div class="sidenav-logo"></div>
-        <div class="sidenav-item sidenav-net"
-            :class="{active: currentTab === 'net'}"
-            @click="currentTab = 'net'">
+        <div class="sidenav-item sidenav-net">
             <router-link to="/network">抓包列表</router-link>
         </div>
-        <div class="sidenav-item sidenav-rule"
-            :class="{active: currentTab === 'rule'}"
-            @click="currentTab = 'rule'">
+        <div class="sidenav-item sidenav-rule">
             <router-link to="/rule">拦截修改</router-link>
         </div>
-        <div class="sidenav-item sidenav-mock"
-            :class="{active: currentTab === 'mock'}"
-            @click="currentTab = 'mock'">
+        <div class="sidenav-item sidenav-mock">
             <router-link to="/mock">数据Mock</router-link>
         </div>
     </div>
@@ -31,11 +25,7 @@ import proxyMenu from './components/menu.vue'
 export default {
     data () {
         return {
-            currentTab: 'net'
         }
-    },
-    created() {
-        this.currentTab = location.hash.slice(2)
     },
     components: {
         proxyMenu
@@ -94,10 +84,6 @@ h1,h2,h3,h4 {
     &:hover {
         box-shadow: inset 4px 0px 13px #222;
     }
-    &.active {
-        box-shadow: inset 4px 0px 13px #222;
-        border-left: 5px solid #669999;
-    }
     a {
         display: inline-block;
         width: 100%;
@@ -108,6 +94,10 @@ h1,h2,h3,h4 {
         box-sizing: border-box;
         padding-left: 15px; 
     }
+}
+.router-link-active {
+    box-shadow: inset 4px 0px 13px #222;
+    border-left: 5px solid #669999;
 }
 .sidenav-net {
     background: url('./assets/sidenav-net.png') 10px center no-repeat;
