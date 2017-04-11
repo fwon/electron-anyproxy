@@ -90,7 +90,6 @@ export default {
     },
     computed: {
         tableData() {
-            console.log('change')
             return this.$store.getters.filterTableDate;
         }
     },
@@ -113,8 +112,6 @@ export default {
                 this.detailPanelStatus = true;
                 
                 this.$remoteApi.getSingleLog(val.id).then((rec) => {
-                    console.log('rec')
-                    console.log(rec);
                     self.currentRow = rec || {};
                     
                 }, () => {});

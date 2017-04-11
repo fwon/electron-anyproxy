@@ -1,10 +1,11 @@
 <template>
     <div id="rules_panel">
-        <el-dialog title="规则编辑" v-model="eidtRuleStatus">
+        <el-dialog v-model="eidtRuleStatus">
+            <div slot="title">{{ $t("ap.rulepop.title") }}</div>
             <div class="rules-editor">
                 <div class="rules-editor__sample">
-                    <span>规则样例</span>
-                    <el-select v-model="ruleName" placeholder="请选择" @change="ruleSelectChange">
+                    <span>{{ $t("ap.rulepop.sample") }}</span>
+                    <el-select v-model="ruleName" placeholder="" @change="ruleSelectChange">
                         <el-option
                         v-for="item in ruleOptions"
                         :label="item.label"
@@ -13,62 +14,63 @@
                     </el-select>
                 </div>
                 <div class="rules-editor__name">
-                    <span>名称(自定义)</span>
+                    <span>{{ $t("ap.rulepop.name") }}</span>
                     <el-input type="input" v-model="ruleKey.name"></el-input>
                 </div>
                 <div class="rules-editor__cont">
-                    <p>规则内容</p>
+                    <p>{{ $t("ap.rulepop.content") }}</p>
                     <codemirror v-model="ruleValue" :options="editorOption"></codemirror>
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancelRule">取 消</el-button>
-                <el-button type="primary"  @click="saveRule">保 存</el-button>
+                <el-button @click="cancelRule">{{ $t("ap.rulepop.cancelbtn") }}</el-button>
+                <el-button type="primary"  @click="saveRule">{{ $t("ap.rulepop.savebtn") }}</el-button>
             </div>
         </el-dialog>
         <div class="rules-list">
-            <el-button type="primary" :plain="true" icon="plus" @click="eidtRuleStatus = true">添加规则</el-button>
+            <el-button type="primary" :plain="true" icon="plus" @click="eidtRuleStatus = true">{{ $t("ap.rulelist.addbtn") }}</el-button>
             <el-table
                 :data="rulesData"
                 border
                 :row-class-name="tableRowClassName">
                 <el-table-column
                 type="index"
-                label="状态"
-                width="65">
+                label="Status"
+                width="80">
                 <template scope="scope">
                     <i class="el-icon-check"></i>
                 </template>
                 </el-table-column>
                 <el-table-column
                 prop="name"
-                label="规则">
+                label="Name">
                 </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="Operating">
                 <template scope="scope">
                     <el-button
                     size="small"
                     @click="handleEdit(scope.$index, scope.row)">
-                    编辑</el-button>
+                    {{ $t("ap.rulelist.editbtn") }}</el-button>
                     <el-button
                     size="small"
                     type="danger"
                     @click="handleDelete(scope.$index, scope.row)">
-                    删除</el-button>
+                    {{ $t("ap.rulelist.delbtn") }}</el-button>
                     <el-button
                     size="small"
                     type="warning"
                     @click="handleCurrentChange(scope.$index, scope.row)"
                     v-if="currentSelectIndex === scope.$index">
-                    取消</el-button>
+                    {{ $t("ap.rulelist.cancelbtn") }}</el-button>
                     <el-button
                     size="small"
                     type="success"
                     @click="handleCurrentChange(scope.$index, scope.row)"
                     v-else>
-                    应用</el-button>
-                    <el-tooltip class="item" effect="light" content="注意：应用规则后要重新启动代理" placement="right">
-                    <i class="el-icon-information"></i>
+                    {{ $t("ap.rulelist.usebtn") }}</el-button>
+                    <el-tooltip class="item" effect="light" placement="right">
+                        <div slot="content">{{ $t("ap.rulelist.tip") }}</div>
+                        <i class="el-icon-information"></i>
                     </el-tooltip>
                 </template>
                 </el-table-column>
@@ -85,6 +87,7 @@ import _ from 'lodash';
 
 export default {
     data() {
+        const self = this;
         return {
             ruleKey: {      //样例的id和name列表
                 id: '',
@@ -101,28 +104,28 @@ export default {
             currentSelectIndex: null, //目前选中的规则
             ruleOptions: [{
                 value: 'modify_request_data',
-                label: '修改请求数据'
+                label: self.$t('ap.rulepop.sample1')
             },{
                 value: 'modify_request_header',
-                label: '修改请求头'
+                label: self.$t('ap.rulepop.sample2')
             },{
                 value: 'modify_request_path',
-                label: '修改请求的目标地址'
+                label: self.$t('ap.rulepop.sample3')
             },{
                 value: 'modify_request_protocol',
-                label: '修改请求协议'
+                label: self.$t('ap.rulepop.sample4')
             },{
                 value: 'modify_response_data',
-                label: '修改返回内容并延迟'
+                label: self.$t('ap.rulepop.sample5')
             },{
                 value: 'modify_response_header',
-                label: '修改返回头'
+                label: self.$t('ap.rulepop.sample6')
             },{
                 value: 'modify_response_statuscode',
-                label: '修改返回状态码'
+                label: self.$t('ap.rulepop.sample7')
             },{
                 value: 'use_local_response',
-                label: '使用本地数据'
+                label: self.$t('ap.rulepop.sample8')
             }]
         }
     },
@@ -160,7 +163,7 @@ export default {
                 self.ruleValue = data;
             }, (err) => {
                 self.$notify({
-                    message: '获取样例失败',
+                    message: self.$t("ap.message.MSG_RULE_GET_FAIL"),
                     duration: 2000
                 })
             });
@@ -172,20 +175,18 @@ export default {
             // this.ruleName = '';
         },
         saveRule() {
-            console.log('add')
             const self = this;
             const rule = {
                 id: self.ruleKey.id || util.generateUUIDv4(),
                 name: self.ruleKey.name,
             };
             if (!rule.name || !this.ruleValue) {
-                this.$alert('无效规则，请重新填写');
+                this.$alert(self.$t("ap.message.MSG_RULE_FORMAT_FAIL"));
                 return;
             }
             const nameIndex = _.findIndex(this.rulesData, {name: rule.name});
             const idIndex = _.findIndex(this.rulesData, {id: rule.id});
             if (idIndex !== -1) {
-                console.log('aaaa')
                 this.$store.commit(types.MODIFY_PROXY_RULE, {
                     index: idIndex,
                     rule: rule
@@ -193,7 +194,7 @@ export default {
                 this.saveToFile(rule.id);
             } else {
                 if (nameIndex !== -1) {
-                    this.$alert('规则名不能重复');
+                    this.$alert(self.$t("ap.message.MSG_RULE_NAME_REPEAT"));
                     return;
                 } else {
                     this.$store.commit(types.STORE_PROXY_RULE, rule);

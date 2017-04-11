@@ -1,14 +1,15 @@
 <template>
     <div id="mock">
         <div class="mock-project">
-            <el-dialog title="添加项目" v-model="addProjectStatus">
+            <el-dialog v-model="addProjectStatus">
+                <div slot="title">{{ $t("ap.mocklist.addbtn") }}</div>
                 <el-input type="input" v-model="newProjectName"></el-input>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="addProjectStatus = false">取 消</el-button>
-                    <el-button type="primary" @click="addProject">确 定</el-button>
+                    <el-button @click="addProjectStatus = false">{{ $t("ap.mockpop.cancelbtn") }}</el-button>
+                    <el-button type="primary" @click="addProject">{{ $t("ap.mockpop.savebtn") }}</el-button>
                 </div>
             </el-dialog>
-            <el-button type="primary" :plain="true" icon="plus" @click="addProjectStatus = true">添加项目</el-button>
+            <el-button type="primary" :plain="true" icon="plus" @click="addProjectStatus = true">{{ $t("ap.mocklist.addbtn") }}</el-button>
             <ul class="mock-project-list el-menu el-menu-vertical-demo">
                 <li 
                     class="mock-project-item el-menu-item"
@@ -21,7 +22,8 @@
             </ul>
         </div>
         <div class="mock-path" v-if="currentProject.id">
-            <el-dialog size="large" title="路径配置" v-model="addPathStatus">
+            <el-dialog size="large" v-model="addPathStatus">
+                <div slot="title">{{ $t("ap.mocklist.addapibtn") }}</div>
                 <div class="mock-path-editor">
                     <div class="mock-path-editor__left">
                         <h4>Request Url</h4>
@@ -39,15 +41,16 @@
                     </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="cancelPath">取 消</el-button>
-                    <el-button type="primary"  @click="savePath">保 存</el-button>
+                    <el-button @click="cancelPath">{{ $t("ap.mockpop.cancelbtn") }}</el-button>
+                    <el-button type="primary"  @click="savePath">{{ $t("ap.mockpop.savebtn") }}</el-button>
                 </div>
             </el-dialog>
-            <h2>当前项目：{{currentProject.name}}
-            <el-tooltip class="item" effect="light" content="注意：切换项目或勾选接口后要重新启动代理" placement="right">
-            <i class="el-icon-information"></i>
+            <h2>{{ $t("ap.mocklist.currentpro") }}{{currentProject.name}}
+            <el-tooltip class="item" effect="light" placement="right">
+                <div slot="content">{{ $t("ap.mocklist.currenttip") }}</div>
+                <i class="el-icon-information"></i>
             </el-tooltip></h2>
-            <el-button type="primary" :plain="true" icon="plus" @click="toAddPath">添加接口</el-button>
+            <el-button type="primary" :plain="true" icon="plus" @click="toAddPath">{{ $t("ap.mocklist.addapibtn") }}</el-button>
             <el-table
                 class="mock-path__list"
                 :data="projectPaths"
@@ -59,7 +62,7 @@
                 </el-table-column>
                 <el-table-column
                 prop="request.url"
-                label="路径"
+                label="Url"
                 width="400">
                 </el-table-column>
                 <el-table-column
@@ -67,17 +70,17 @@
                 label="Method"
                 width="100">
                 </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="Operating">
                 <template scope="scope">
                     <el-button
                     size="small"
                     @click="handleEdit(scope.$index, scope.row)">
-                    编辑</el-button>
+                    {{ $t("ap.mocklist.editbtn") }}</el-button>
                     <el-button
                     size="small"
                     type="danger"
                     @click="handleDelete(scope.$index, scope.row)">
-                    删除</el-button>
+                    {{ $t("ap.mocklist.delbtn") }}</el-button>
                 </template>
                 </el-table-column>
             </el-table>
@@ -135,12 +138,12 @@ export default {
     methods: {
         addProject() {
             if (!this.newProjectName) {
-                this.$alert('名称不能为空');
+                this.$alert(this.$t("ap.message.MSG_MOCK_NAME_EMPTY"));
                 return;
             }
             const nameIndex  = _.findIndex(this.projects, {name: this.newProjectName});
             if (nameIndex !== -1) {
-                this.$alert('该项目已存在！');
+                this.$alert(this.$t("ap.message.MSG_MOCK_PRO_EXIST"));
             } else {
                 const project = {
                     id: util.generateUUIDv4(),
@@ -153,7 +156,7 @@ export default {
             }
         },
         deleteProject(item) {
-            this.$confirm('确定要删除该项目吗?', {
+            this.$confirm(this.$t("ap.message.MSG_MOCK_CONFIRM_DEL"), {
                 type: 'warning'
             }).then(() => {
                 const idIndex  = _.findIndex(this.projects, {id: item.id});
@@ -211,7 +214,7 @@ export default {
                 }
                 this.$remoteApi.saveProjectPaths(this.currentProject.id, this.projectPaths).then(() => {
                     self.$notify({
-                        message: '保存成功',
+                        message: self.$t("ap.message.MSG_MOCK_SAVE_SUCCESS"),
                         duration: 1000
                     });
                     self.addPathStatus = false;
@@ -237,14 +240,14 @@ export default {
         },
         handleDelete(index, row) {
             const self = this;
-            this.$confirm('确定要删除该路径吗?', {
+            this.$confirm(self.$t("ap.message.MSG_MOCK_CONFIRM_DEL"), {
                 type: 'warning'
             }).then(() => {
                 const idIndex  = _.findIndex(this.projectPaths, {id: row.id});
                 this.projectPaths.splice(idIndex, 1);
                 this.$remoteApi.saveProjectPaths(this.currentProject.id, this.projectPaths).then(() => {
                     self.$notify({
-                        message: '删除成功',
+                        message: self.$t("ap.message.MSG_MOCK_DEL_SUCCESS"),
                         duration: 1000
                     });
                 });

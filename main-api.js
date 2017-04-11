@@ -22,11 +22,11 @@ const mockCustomPath = __dirname + '/mock_custom';
 const certMgr = require('./proxy.js').utils.certMgr;
 const exec = require('child_process').exec;
 
-const MSG_HAD_OPEN_PROXY = '已开启代理';
-const MSG_OPEN_PROXY_SUCCESS = '开启成功';
-const MSG_OPEN_PROXY_ERROR = '开启失败';
-const MSG_HASNOT_OPEN_PROXY = '未开启代理';
-const MSG_CLOSE_PROXY_SUCCESS = '关闭成功';
+const MSG_HAD_OPEN_PROXY = 'MSG_HAD_OPEN_PROXY';
+const MSG_OPEN_PROXY_SUCCESS = 'MSG_OPEN_PROXY_SUCCESS';
+const MSG_OPEN_PROXY_ERROR = 'MSG_OPEN_PROXY_ERROR';
+const MSG_HASNOT_OPEN_PROXY = 'MSG_HASNOT_OPEN_PROXY';
+const MSG_CLOSE_PROXY_SUCCESS = 'MSG_CLOSE_PROXY_SUCCESS';
 
 //获取rule文件
 function getRuleModule(id) {

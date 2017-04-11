@@ -3,13 +3,13 @@
     <div id="sidenav" class="sidenav">
         <div class="sidenav-logo"></div>
         <div class="sidenav-item sidenav-net">
-            <router-link to="/network">抓包列表</router-link>
+            <router-link to="/network">{{ $t("ap.bigtab.a") }}</router-link>
         </div>
         <div class="sidenav-item sidenav-rule">
-            <router-link to="/rule">拦截修改</router-link>
+            <router-link to="/rule">{{ $t("ap.bigtab.b") }}</router-link>
         </div>
         <div class="sidenav-item sidenav-mock">
-            <router-link to="/mock">数据Mock</router-link>
+            <router-link to="/mock">{{ $t("ap.bigtab.c") }}</router-link>
         </div>
     </div>
     <proxy-menu></proxy-menu>

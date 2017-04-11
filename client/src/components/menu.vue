@@ -1,13 +1,16 @@
 <template>
     <div id="menu">
         <div class="menu-left grid-content">
-            <el-tooltip class="item" effect="light" content="启动代理服务器" placement="bottom-end" v-if="!open">
+            <el-tooltip class="item" effect="light" placement="bottom-end" v-if="!open">
+                <div slot="content">{{ $t("ap.menubtn.starttip") }}</div>
                 <el-button type="success" icon="caret-right" @click="toggleProxy" v-if="!open"></el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="light" content="关闭代理服务器" placement="bottom-end" v-if="open">
+            <el-tooltip class="item" effect="light" placement="bottom-end" v-if="open">
+                <div slot="content">{{ $t("ap.menubtn.stoptip") }}</div>
                 <el-button type="danger" icon="close" @click="toggleProxy" v-if="open"></el-button>
             </el-tooltip>                        
-            <el-tooltip class="item" effect="light" content="清除列表" placement="bottom-end">
+            <el-tooltip class="item" effect="light" placement="bottom-end">
+                <div slot="content">{{ $t("ap.menubtn.cleartip") }}</div>
                 <el-button type="warning" icon="delete" @click="clearRecorder"></el-button>
             </el-tooltip>
             <proxy-filter></proxy-filter>
@@ -19,16 +22,16 @@
             width="230"
             v-model="visibleSetting">
                 <el-form ref="form" :model="setting" label-width="80px">
-                    <el-form-item label="端口">
+                    <el-form-item label="Port">
                         <el-input v-model="setting.port"></el-input>
                     </el-form-item>
-                    <el-form-item label="全局代理">
+                    <el-form-item label="Global">
                         <el-switch on-text="" off-text="" v-model="setting.global"></el-switch>
                     </el-form-item>
-                    <el-form-item label="https">
+                    <el-form-item label="Https">
                         <el-switch on-text="" off-text="" v-model="setting.forceProxyHttps"></el-switch>
                     </el-form-item>
-                    <el-form-item label="限速(kb/s)">
+                    <el-form-item label="Speed(kb/s)">
                         <el-select
                             v-model="setting.throttle"
                             allow-create
@@ -41,8 +44,8 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item class="menu-setting__btn">
-                        <el-button @click="visibleSetting = false">保存</el-button>
-                        <el-button type="success" @click="restartProxy">重启</el-button>
+                        <el-button @click="visibleSetting = false">{{ $t("ap.menuset.save") }}</el-button>
+                        <el-button type="success" @click="restartProxy">{{ $t("ap.menuset.restart") }}</el-button>
                     </el-form-item>
                 </el-form>
             </el-popover>
@@ -55,12 +58,13 @@
                 <div style="text-align: right; margin: 0">
                     <i class="el-icon-close" @click="visibleTips = false"></i>
                 </div>
-                <p v-if="proxyIp">代理地址：<br/><b>IP:</b> {{proxyIp}} <br/> <b>PORT:</b> {{proxyPort}}</p>
-                <p v-else>未开启代理</p>
+                <p v-if="proxyIp">{{ $t("ap.menumsg.proxy") }}：<br/><b>IP:</b> {{proxyIp}} <br/> <b>PORT:</b> {{proxyPort}}</p>
+                <p v-else>{{ $t("ap.menumsg.notopen") }}</p>
             </el-popover>
             <el-button type="primary" icon="information" :plain="true" v-popover:popovertips></el-button>
             <el-tooltip class="item" content="点击下载https证书" placement="bottom-end">
-                <el-button type="primary" :plain="true" @click="downloadRootCA">证书</el-button>
+                <div slot="content">{{ $t("ap.menubtn.catip") }}</div>
+                <el-button type="primary" :plain="true" @click="downloadRootCA">{{ $t("ap.menubtn.cabtn") }}</el-button>
             </el-tooltip>
         </div>
     </div>
@@ -149,7 +153,7 @@ export default {
             }
             this.$remoteApi.startProxy(this.setting).then((res) => {
                 self.$notify({
-                    title: '代理已开启',
+                    title: self.$t("ap.message.MSG_HAD_OPEN_PROXY"),
                     message: 'IP:' + res.ip + '  ' + 'PORT:' + res.port,
                     type: 'success',
                     duration: 2000,
@@ -159,7 +163,7 @@ export default {
                 self.onUpdateRecorder();
             }, (res) => {
                 self.$notify({
-                    message: res.msg,
+                    message: self.$t("ap.message." + res.msg),
                     type: 'error',
                     duration: 2000,
                 });
@@ -169,14 +173,14 @@ export default {
             const self = this;
             this.$remoteApi.stopProxy().then((res) => {
                 self.$notify({
-                    message: res.msg,
+                    message: self.$t("ap.message." + res.msg),
                     type: 'success',
                     duration: 2000,
                 });
                 self.$remoteApi.offUpdate();
             }, (res) => {
                 self.$notify({
-                    message: res.msg,
+                    message: self.$t("ap.message." + res.msg),
                     type: 'error',
                     duration: 2000,
                 });
@@ -197,20 +201,21 @@ export default {
         },
         downloadRootCA() {
             const h = this.$createElement;
+            const self = this;
             const message = {
-                success: '证书下载成功，请双击crt证书安装',
-                exist: '证书已存在',
-                error: '证书下载错误'
+                success: this.$t("ap.message.MSG_CA_DOWN_SUCCESS"),
+                exist: this.$t("ap.message.MSG_CA_EXIST"),
+                error: this.$t("ap.message.MSG_CA_DOWN_FAIL")
             };
             this.$remoteApi.generateRootCA((msg) => {
                 this.$notify({
-                    title: '提示',
+                    title: self.$t("ap.menumsg.tips"),
                     message: h('p', {style: 'color:green'}, message[msg]),
                     duration: 2000
                 });
             },(msg) => {
                 this.$notify({
-                    title: '提示',
+                    title: self.$t("ap.menumsg.tips"),
                     message: h('p', {style: 'color:red'}, message[msg]),
                     duration: 2000
                 });

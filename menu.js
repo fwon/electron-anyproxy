@@ -1,4 +1,23 @@
 const {app} = require('electron');
+const fs = require('fs');
+const defaultSetting = require('./setting.json');
+
+const settingPath = __dirname + '/setting.json';
+
+function settingLang(label, win) {
+    let setting = require('./setting.json');
+    const lang = setting.lang;
+    if (label !== lang) {
+        setting.lang = label;
+        fs.writeFile(settingPath, JSON.stringify(setting), 'utf8', (err) => {
+            if (err) {
+                return;
+            } else {
+                win.reload();
+            }
+        });
+    }
+}
 
 const template = [
   {
@@ -56,6 +75,27 @@ const template = [
       },
       {
         role: 'togglefullscreen'
+      },
+      {
+          label: 'language',
+          submenu: [
+              {
+                  label: 'en',
+                  type: 'radio',
+                  checked: defaultSetting.lang == 'en',
+                  click(menuItem, browserWindow, event) {
+                      settingLang(menuItem.label, browserWindow);
+                  }
+              },
+              {
+                  label: 'zh-CN',
+                  type: 'radio',
+                  checked: defaultSetting.lang == 'zh-CN',
+                  click(menuItem, browserWindow, event) {
+                      settingLang(menuItem.label, browserWindow);
+                  }
+              }
+          ]
       }
     ]
   },
