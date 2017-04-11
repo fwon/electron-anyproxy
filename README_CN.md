@@ -27,7 +27,7 @@
 ## Q&A
 中文使用文档：[地址](https://fwon.github.io/e-anyproxy/help.html)
 
-**多语言支持：**菜单 View->language
+多语言支持：菜单 View->language
 
 ## 本地运行
 ```javascript
