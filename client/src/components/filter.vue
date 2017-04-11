@@ -38,6 +38,7 @@ export default {
 <style lang="less">
 #filter {
     display:inline-block;
+    margin-left: 10px;
 }
 .el-input {
     width: 200px;
