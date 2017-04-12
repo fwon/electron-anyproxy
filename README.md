@@ -1,57 +1,48 @@
-[中文](https://github.com/fwon/electron-anyproxy/blob/master/README_CN.md)|English
+中文|[English](https://github.com/fwon/electron-anyproxy/blob/master/README_EN.md)
 
 <p><img width="180" src="https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-icon.png"></p>
 
-📢  A Proxy client, base on Anyproxy. Building with Electron and Vue. 
+📢  一个网络代理客户端, 依赖于 Anyproxy. 构建在 Electron 和 Vue 之上. 
 
 [![Build Status](https://travis-ci.org/fwon/electron-anyproxy.svg?branch=master)](https://travis-ci.org/fwon/electron-anyproxy)
 
-## Features
-1. Records traffic: Records all traffic between your browser and the Internet.
-2. Network intercept: Support modify Request Headers/Data, Response Headers/Data.
-3. Network simulates: Simulates slower internet connections.
-4. API Mock: Mock your own api for developing projects.
+## 功能
+1. 网络抓包：提供类似Chrome的预览功能，支持http/https。
+2. 数据拦截：支持修改请求头，请求数据，返回头，返回数据等。
+3. 网速限制：模拟各种网段的网速。
+4. 接口Mock: 根据具体项目管理模拟mock接口
 
-
-## Records traffic
+## 网络抓取
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-1.png)
 
-## Network intercept Setting
+## 规则配置
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-2.png)
 
-## Network simulates
+## 网络模拟
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-3.png)
 
-## API Mock
+## 数据Mock
 ![roadmap.path](https://raw.githubusercontent.com/fwon/blog/master/assets/electron-anyproxy-4.png)
 
 ## Q&A
-1.How to set proxy and Install certificates?
+中文使用文档：[地址](https://fwon.github.io/e-anyproxy/help.html)
 
-[Click me](http://anyproxy.io/4.x/en.html#appendix)
+多语言支持：菜单 View->language
 
-2.How to mock api data?
-
-[Click me](http://mockjs.com/examples.html)
-
-3.How to set Locale language?
-
-**Menu:** View --> language
-
-## Dev Run
+## 本地运行
 ```javascript
 npm install //or yarn
 npm run start
 ```
-## Package
+## 打包软件
 ```javascript
-npm install //or yarn, only once
+npm install //or yarn, 若已安装则无需次命令
 npm run pack
 ```
-Application will be packaged into `pack` folder, double click to launch.
+软件将会打包到`pack`目录下，双击运行
 
-## Notice
-I Suggest to use yarn instead of npm, cause `npm install` may create hidden folder in node_modules, and electron-package cannot detect those huge devDependencies packages like electron. So they will also be packaged into the Application, that will make the Application size huge!
+## 注意
+打包时建议用yarn安装npm包，因为npm install会在node_modules中安装隐藏目录，导致electron-packager打包的时候无法将electron等大文件删除，打包出来的软件包会很大。
 
 ## LISCENCE
 MIT
