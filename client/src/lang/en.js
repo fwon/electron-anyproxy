@@ -9,6 +9,7 @@ module.exports = {
             starttip: 'start recording',
             stoptip: 'stop recording',
             cleartip: 'clear records',
+            showlist: 'show records',
             catip: 'download CA',
             cabtn: 'CA'
         },

@@ -12,7 +12,7 @@
             <router-link to="/mock">{{ $t("ap.bigtab.c") }}</router-link>
         </div>
     </div>
-    <proxy-menu></proxy-menu>
+    <proxy-menu :recordlist-view="showRecordView"></proxy-menu>
     <keep-alive>
         <router-view></router-view>
     </keep-alive>
@@ -20,15 +20,25 @@
 </template>
 
 <script>
+import router from './router'
 import proxyMenu from './components/menu.vue'
 
 export default {
     data () {
         return {
+            showRecordView: true
         }
     },
     components: {
         proxyMenu
+    },
+    created() {
+        const self = this;
+        router.beforeEach((to, from, next) => {
+            const path = to.path.slice(1);
+            // self.showRecordView = (path !== 'network');
+            next();
+        });
     }
 }
 </script>

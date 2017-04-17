@@ -22,6 +22,15 @@
             width="230"
             v-model="visibleSetting">
                 <el-form ref="form" :model="setting" label-width="80px">
+                    <el-form-item class="show-record-list" v-if="recordlistView">
+                        {{ $t("ap.menubtn.showlist") }}
+                        <el-switch
+                        v-model="recordlist"
+                        on-color="#13ce66"
+                        on-text=""
+                        off-text="">
+                        </el-switch>
+                    </el-form-item>
                     <el-form-item label="Port">
                         <el-input v-model="setting.port"></el-input>
                     </el-form-item>
@@ -76,6 +85,7 @@ import _ from 'lodash';
 import * as types from '../store/mutation-types';
 
 export default {
+    props: ['recordlistView'],
     data () {
         return {
             visibleSetting: false,
@@ -83,7 +93,7 @@ export default {
             openHttps: false,
             setting: {
                 port: '8001',
-                forceProxyHttps: true,
+                forceProxyHttps: false,
                 global: false,
                 throttle: null
             },
@@ -120,12 +130,13 @@ export default {
                     label: 'WiFi(30Mb/s)',
                     value: 30720
                 },
-            ]
-
+            ],
+            recordlist: true //是否显示抓包列表
         }
     },
     mounted() {
         // this.onUpdateRecorder();
+        // console.log(this.$router.currentRoute);
     },
     computed: mapState({
         open: state => !!state.proxy_is_open,
@@ -160,7 +171,9 @@ export default {
                 });
                 self.$store.commit(types.SET_PROXY_IP, res.ip);
                 self.$store.commit(types.SET_PROXY_PORT, res.port);
-                self.onUpdateRecorder();
+                if (self.recordlist) {
+                    self.onUpdateRecorder();
+                }
             }, (res) => {
                 self.$notify({
                     message: self.$t("ap.message." + res.msg),
@@ -235,10 +248,7 @@ export default {
             this.$remoteApi.getlatestLog().then((data) => {
                 self.$store.commit(types.UPDATE_RECORDER, data);
             });
-        }, 200),
-        setMock() {
-
-        }
+        }, 200)
     },
     components: {
         proxyFilter
@@ -305,5 +315,8 @@ export default {
 }
 .el-form-item__content .el-button {
     margin-top: 20px;
+}
+.show-record-list .el-form-item__content {
+    margin-left: 20px !important;
 }
 </style>

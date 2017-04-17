@@ -9,6 +9,7 @@ module.exports = {
             starttip: '启动代理服务器',
             stoptip: '关闭代理服务器',
             cleartip: '清空列表',
+            showlist: '抓包列表',
             catip: '下载证书',
             cabtn: '证书'
         },
