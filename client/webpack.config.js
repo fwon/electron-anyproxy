@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),        //真实存放路径
     publicPath: isPro ? 
-                path.resolve(__dirname, './dist') : //发布引用路径
+                './dist' : 							//发布引用路径
                 '/dist/',                           //开发引用路径
     filename: 'build.js'
   },
