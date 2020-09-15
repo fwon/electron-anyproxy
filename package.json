@@ -39,7 +39,7 @@
     "mockjs": "^1.0.1-beta3",
     "nedb": "^0.11.0",
     "node-easy-cert": "^1.0.0",
-    "node-forge": "^0.6.39",
+    "node-forge": "^0.10.0",
     "npm": "^2.7.0",
     "pug": "^2.0.0-beta6",
     "qrcode-npm": "0.0.3",
